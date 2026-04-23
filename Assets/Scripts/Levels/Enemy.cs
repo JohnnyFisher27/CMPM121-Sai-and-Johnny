@@ -1,16 +1,13 @@
 using UnityEngine;
+using enemies.json;
 
+[Serializable]
 public class Enemy : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    string name;
+    int sprite;
+    int hp;
+    int speed;
+    int damage;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

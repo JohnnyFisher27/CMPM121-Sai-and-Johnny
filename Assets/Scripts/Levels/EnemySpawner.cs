@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
+using Enemy;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;    
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,6 +23,10 @@ public class EnemySpawner : MonoBehaviour
         selector.transform.localPosition = new Vector3(0, 130);
         selector.GetComponent<MenuSelectorController>().spawner = this;
         selector.GetComponent<MenuSelectorController>().SetLevel("Start");
+
+        string jsonString = File.ReadAllText(Application.dataPath + "/enemies.json");
+        List<Enemy> enemies = DeserializeObject(jsonString);
+        debug.Log(enemies);
     }
 
     // Update is called once per frame
