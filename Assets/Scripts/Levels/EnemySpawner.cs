@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
-using Enemy;
+using System.Security.Cryptography.X509Certificates;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject button;
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;    
+    public List<Enemy> enemies;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,9 +24,13 @@ public class EnemySpawner : MonoBehaviour
         selector.GetComponent<MenuSelectorController>().spawner = this;
         selector.GetComponent<MenuSelectorController>().SetLevel("Start");
 
-        string jsonString = File.ReadAllText(Application.dataPath + "/enemies.json");
-        List<Enemy> enemies = DeserializeObject(jsonString);
-        Debug.Log(enemies);
+        string jsonString = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
+        enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString);
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            Debug.Log(enemies[i].name);
+        }
+
     }
 
     // Update is called once per frame
@@ -58,26 +63,37 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
+
         for (int i = 0; i < 10; ++i)
         {
-            yield return SpawnZombie();
+            StartCoroutine(SpawnEnemy(enemies[0]));
+        }
+
+        for (int i = 0; i < 10; ++i)
+        {
+            StartCoroutine(SpawnEnemy(enemies[1]));
+        }
+
+        for (int i = 0; i < 10; ++i)
+        {
+            StartCoroutine(SpawnEnemy(enemies[2]));
         }
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
 
-    IEnumerator SpawnZombie()
+    IEnumerator SpawnEnemy(Enemy data)
     {
         SpawnPoint spawn_point = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
         Vector2 offset = Random.insideUnitCircle * 1.8f;
-                
+        
         Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
 
-        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
+        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(data.sprite);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
-        en.hp = new Hittable(50, Hittable.Team.MONSTERS, new_enemy);
-        en.speed = 10;
+        en.hp = new Hittable(data.hp, Hittable.Team.MONSTERS, new_enemy);
+        en.speed = data.speed;
         GameManager.Instance.AddEnemy(new_enemy);
         yield return new WaitForSeconds(0.5f);
     }
