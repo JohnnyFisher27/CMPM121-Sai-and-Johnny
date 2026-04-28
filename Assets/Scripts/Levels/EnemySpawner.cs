@@ -15,7 +15,6 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;    
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
 
         string jsonString = File.ReadAllText(Application.dataPath + "/enemies.json");
         List<Enemy> enemies = DeserializeObject(jsonString);
-        debug.Log(enemies);
+        Debug.Log(enemies);
     }
 
     // Update is called once per frame

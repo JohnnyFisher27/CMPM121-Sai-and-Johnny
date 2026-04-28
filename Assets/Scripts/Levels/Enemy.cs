@@ -1,13 +1,13 @@
 using UnityEngine;
-using enemies.json;
+using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class Enemy : MonoBehaviour
 {
-    string name;
-    int sprite;
-    int hp;
-    int speed;
-    int damage;
-
+    public string name;
+    public int sprite;
+    public int hp;
+    public int speed;
+    public int damage;
 }
