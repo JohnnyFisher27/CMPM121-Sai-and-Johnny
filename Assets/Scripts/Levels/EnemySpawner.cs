@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -51,7 +50,6 @@ public class EnemySpawner : MonoBehaviour
     {
         StartCoroutine(SpawnWave());
     }
-
 
     IEnumerator SpawnWave()
     {
