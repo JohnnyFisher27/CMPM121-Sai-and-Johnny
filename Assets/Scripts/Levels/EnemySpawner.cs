@@ -23,7 +23,6 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         // Enemies deserialized
         string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
         enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString1);
@@ -37,6 +36,7 @@ public class EnemySpawner : MonoBehaviour
         string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
         levels = JsonConvert.DeserializeObject<List<Levels>>(jsonString3);
 
+        // Adds in buttons to select difficulty
         for (int i = 0; i < levels.Count; i++)
         {
             GameObject difficulty_selector = Instantiate(button, level_selector.transform);
@@ -46,12 +46,12 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    // Counts how long the player has been in the wave for
     void Update()
     {
-        if (GameManager.Instance.enemy_count == 0 && GameManager.Instance.state == GameManager.GameState.INWAVE)
+        if (GameManager.Instance.state == GameManager.GameState.INWAVE)
         {
-            GameManager.Instance.state = GameManager.GameState.WAVEEND;
+            GameManager.Instance.wave_time += Time.deltaTime;
         }
     }
 
@@ -59,6 +59,7 @@ public class EnemySpawner : MonoBehaviour
     {
         current_wave = 1;
         current_level = levelname;
+        // Checks each level for the wave count and defaults to 1000 for endless
         max_waves = levels.FirstOrDefault(l => l.name == levelname)?.waves ?? 1000;
 
         level_selector.gameObject.SetActive(false);
@@ -69,6 +70,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
+        GameManager.Instance.wave_time = 0;
         // Level end
         if (current_wave >= max_waves)
         {
