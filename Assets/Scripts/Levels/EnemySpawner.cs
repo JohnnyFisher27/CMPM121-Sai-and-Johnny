@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
+using Microsoft.VisualBasic;
+using System.ComponentModel;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class EnemySpawner : MonoBehaviour
     public List<Enemy> enemies;
     public List<PlayerClass> classes;
     public List<Levels> levels;
+    public string current_level;
+    public int current_wave;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,16 +32,11 @@ public class EnemySpawner : MonoBehaviour
         // Enemies deserialized
         string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
         enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString1);
-        for (int i = 0; i < enemies.Count; ++i)
-        {
-            Debug.Log(enemies[i].name);
-        }
         
         // Classes deserialized
         string jsonString2 = File.ReadAllText(Application.dataPath + "/Resources/classes.json");
         var classDictionary = JsonConvert.DeserializeObject<Dictionary<string, PlayerClass>>(jsonString2);
         classes = classDictionary.Values.ToList();
-        //classes = JsonConvert.DeserializeObject<List<PlayerClass>>(jsonString2);
 
         // Levels deserialized
         string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
@@ -48,11 +47,15 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameManager.Instance.enemy_count == 0 && GameManager.Instance.state == GameManager.GameState.INWAVE)
+        {
+            GameManager.Instance.state = GameManager.GameState.WAVEEND;
+        }
     }
 
     public void StartLevel(string levelname)
     {
+        current_wave = 1;
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
@@ -61,6 +64,12 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
+        // Level end
+        if (current_wave >= 10)
+        {
+            return;
+        }
+        current_wave++;
         StartCoroutine(SpawnWave());
     }
 
@@ -74,21 +83,12 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
-
-        for (int i = 0; i < 10; ++i)
-        {
-            StartCoroutine(SpawnEnemy(enemies[0]));
-        }
-
-        for (int i = 0; i < 10; ++i)
+        
+        for (int i = 0; i < current_wave; i++)
         {
             StartCoroutine(SpawnEnemy(enemies[1]));
         }
 
-        for (int i = 0; i < 10; ++i)
-        {
-            StartCoroutine(SpawnEnemy(enemies[3]));
-        }
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
