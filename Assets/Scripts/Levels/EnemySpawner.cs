@@ -14,6 +14,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;    
     public List<Enemy> enemies;
+    public List<PlayerClass> classes;
+    public List<Levels> levels;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,12 +25,21 @@ public class EnemySpawner : MonoBehaviour
         selector.GetComponent<MenuSelectorController>().spawner = this;
         selector.GetComponent<MenuSelectorController>().SetLevel("Start");
 
-        string jsonString = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
-        enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString);
+        // Enemies deserialized
+        string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
+        enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString1);
         for (int i = 0; i < enemies.Count; ++i)
         {
             Debug.Log(enemies[i].name);
         }
+
+        // Classes deserialized
+        string jsonString2 = File.ReadAllText(Application.dataPath + "/Resources/classes.json");
+        classes = JsonConvert.DeserializeObject<List<PlayerClass>>(jsonString2);
+
+        // Levels deserialized
+        string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
+        levels = JsonConvert.DeserializeObject<List<Levels>>(jsonString3);
 
     }
 
