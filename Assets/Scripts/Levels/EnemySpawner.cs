@@ -32,10 +32,12 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.Log(enemies[i].name);
         }
-
+        
         // Classes deserialized
         string jsonString2 = File.ReadAllText(Application.dataPath + "/Resources/classes.json");
-        classes = JsonConvert.DeserializeObject<List<PlayerClass>>(jsonString2);
+        var classDictionary = JsonConvert.DeserializeObject<Dictionary<string, PlayerClass>>(jsonString2);
+        classes = classDictionary.Values.ToList();
+        //classes = JsonConvert.DeserializeObject<List<PlayerClass>>(jsonString2);
 
         // Levels deserialized
         string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
@@ -85,7 +87,7 @@ public class EnemySpawner : MonoBehaviour
 
         for (int i = 0; i < 10; ++i)
         {
-            StartCoroutine(SpawnEnemy(enemies[2]));
+            StartCoroutine(SpawnEnemy(enemies[3]));
         }
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
