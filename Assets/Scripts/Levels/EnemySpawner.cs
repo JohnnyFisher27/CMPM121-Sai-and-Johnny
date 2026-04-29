@@ -15,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;    
     public List<Enemy> enemies;
+    public Waves waves;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,11 +45,13 @@ public class EnemySpawner : MonoBehaviour
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
+        Waves.Hello();
         StartCoroutine(SpawnWave());
     }
 
     public void NextWave()
     {
+        Debug.Log("woo");
         StartCoroutine(SpawnWave());
     }
 
@@ -64,12 +67,12 @@ public class EnemySpawner : MonoBehaviour
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
 
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             StartCoroutine(SpawnEnemy(enemies[0]));
         }
 
-        for (int i = 0; i < 10; ++i)
+        /* for (int i = 0; i < 10; ++i)
         {
             StartCoroutine(SpawnEnemy(enemies[1]));
         }
@@ -77,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < 10; ++i)
         {
             StartCoroutine(SpawnEnemy(enemies[2]));
-        }
+        } */
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
