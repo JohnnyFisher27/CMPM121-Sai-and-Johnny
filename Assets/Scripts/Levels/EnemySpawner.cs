@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
-using Microsoft.VisualBasic;
-using System.ComponentModel;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -20,14 +18,11 @@ public class EnemySpawner : MonoBehaviour
     public List<Levels> levels;
     public string current_level;
     public int current_wave;
+    public int max_waves;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameObject selector = Instantiate(button, level_selector.transform);
-        selector.transform.localPosition = new Vector3(0, 130);
-        selector.GetComponent<MenuSelectorController>().spawner = this;
-        selector.GetComponent<MenuSelectorController>().SetLevel("Start");
 
         // Enemies deserialized
         string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
@@ -42,6 +37,13 @@ public class EnemySpawner : MonoBehaviour
         string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
         levels = JsonConvert.DeserializeObject<List<Levels>>(jsonString3);
 
+        for (int i = 0; i < levels.Count; i++)
+        {
+            GameObject difficulty_selector = Instantiate(button, level_selector.transform);
+            difficulty_selector.transform.localPosition = new Vector3(0, 130 - (i + 1) * 60);
+            difficulty_selector.GetComponent<MenuSelectorController>().spawner = this;
+            difficulty_selector.GetComponent<MenuSelectorController>().SetLevel(levels[i].name);
+        }
     }
 
     // Update is called once per frame
@@ -56,6 +58,9 @@ public class EnemySpawner : MonoBehaviour
     public void StartLevel(string levelname)
     {
         current_wave = 1;
+        current_level = levelname;
+        max_waves = levels.FirstOrDefault(l => l.name == levelname)?.waves ?? 1000;
+
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
@@ -65,7 +70,7 @@ public class EnemySpawner : MonoBehaviour
     public void NextWave()
     {
         // Level end
-        if (current_wave >= 10)
+        if (current_wave >= max_waves)
         {
             return;
         }

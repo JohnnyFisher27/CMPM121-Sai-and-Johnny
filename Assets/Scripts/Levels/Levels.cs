@@ -19,7 +19,6 @@ public class SpawnList
     public string hp;
     public string delay;
     public List<int> sequence;
-
     public string damage;
     public string location;
 }
