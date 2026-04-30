@@ -1,0 +1,14 @@
+{
+   "team": [
+             {"firstname": "Johnny",
+              "lastname": "Fisher",
+              "github": "JohnnyFisher27",
+              "email": "jkfisher@ucsc.edu"},
+             {"firstname": "Sai",
+              "lastname": "Hamid",
+              "github": "walinblue",
+              "email": "saahamid@ucsc.edu"}
+            ],
+   "repository": "git@github.com:CMPM121-Sai-and-Johnny/repository.git",
+   "commit": "0123456789abcdef"
+}
