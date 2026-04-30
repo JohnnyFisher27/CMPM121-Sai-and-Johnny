@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -15,46 +14,71 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;    
     public List<Enemy> enemies;
-    public Waves waves;
+    public List<PlayerClass> classes;
+    public List<Levels> levels;
+    public string current_level;
+    public int current_wave;
+    public int max_waves;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameObject selector = Instantiate(button, level_selector.transform);
-        selector.transform.localPosition = new Vector3(0, 130);
-        selector.GetComponent<MenuSelectorController>().spawner = this;
-        selector.GetComponent<MenuSelectorController>().SetLevel("Start");
+        // Enemies deserialized
+        string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
+        enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString1);
+        
+        // Classes deserialized
+        string jsonString2 = File.ReadAllText(Application.dataPath + "/Resources/classes.json");
+        var classDictionary = JsonConvert.DeserializeObject<Dictionary<string, PlayerClass>>(jsonString2);
+        classes = classDictionary.Values.ToList();
 
-        string jsonString = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
-        enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString);
-        for (int i = 0; i < enemies.Count; ++i)
+        // Levels deserialized
+        string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
+        levels = JsonConvert.DeserializeObject<List<Levels>>(jsonString3);
+
+        // Adds in buttons to select difficulty
+        for (int i = 0; i < levels.Count; i++)
         {
-            Debug.Log(enemies[i].name);
+            GameObject difficulty_selector = Instantiate(button, level_selector.transform);
+            difficulty_selector.transform.localPosition = new Vector3(0, 130 - (i + 1) * 60);
+            difficulty_selector.GetComponent<MenuSelectorController>().spawner = this;
+            difficulty_selector.GetComponent<MenuSelectorController>().SetLevel(levels[i].name);
         }
-
     }
 
-    // Update is called once per frame
+    // Counts how long the player has been in the wave for
     void Update()
     {
-        
+        if (GameManager.Instance.state == GameManager.GameState.INWAVE)
+        {
+            GameManager.Instance.wave_time += Time.deltaTime;
+        }
     }
 
     public void StartLevel(string levelname)
     {
+        current_wave = 1;
+        current_level = levelname;
+        // Checks each level for the wave count and defaults to 1000 for endless
+        max_waves = levels.FirstOrDefault(l => l.name == levelname)?.waves ?? 1000;
+
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
-        Waves.Hello();
         StartCoroutine(SpawnWave());
     }
 
     public void NextWave()
     {
-        Debug.Log("woo");
+        GameManager.Instance.wave_time = 0;
+        // Level end
+        if (current_wave >= max_waves)
+        {
+            return;
+        }
+        current_wave++;
         StartCoroutine(SpawnWave());
     }
-
 
     IEnumerator SpawnWave()
     {
@@ -66,21 +90,12 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
-
-        for (int i = 0; i < 2; ++i)
-        {
-            StartCoroutine(SpawnEnemy(enemies[0]));
-        }
-
-        /* for (int i = 0; i < 10; ++i)
+        
+        for (int i = 0; i < current_wave; i++)
         {
             StartCoroutine(SpawnEnemy(enemies[1]));
         }
 
-        for (int i = 0; i < 10; ++i)
-        {
-            StartCoroutine(SpawnEnemy(enemies[2]));
-        } */
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
