@@ -138,7 +138,7 @@ public class EnemySpawner : MonoBehaviour
                     StartCoroutine(SpawnEnemy(enemy,hp,damage,speed));
                     total++;
                 }
-                float delay = !string.IsNullOrEmpty(spawnList.delay) ? float.Parse(spawnList.delay) : 2f;
+                float delay = !string.IsNullOrEmpty(spawnList.delay) ? float.Parse(spawnList.delay) : GameManager.Instance.countdown;
                 yield return new WaitForSeconds(delay);
             }
         }
