@@ -569,7 +569,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardUI: {fileID: 1709288111}
-  timeText: {fileID: 1678039525}
+  displayText: {fileID: 1678039525}
+  nextText: {fileID: 254615550}
 --- !u!4 &220180078
 Transform:
   m_ObjectHideFlags: 0
@@ -4940,7 +4941,7 @@ GameObject:
   - component: {fileID: 1678039526}
   - component: {fileID: 1678039525}
   m_Layer: 5
-  m_Name: TimeText
+  m_Name: DisplayText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

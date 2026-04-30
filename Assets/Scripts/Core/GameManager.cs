@@ -11,7 +11,8 @@ public class GameManager
         INWAVE,
         WAVEEND,
         COUNTDOWN,
-        GAMEOVER
+        GAMEOVER,
+        GAMEWON
     }
     public GameState state;
 
@@ -44,6 +45,18 @@ public class GameManager
     public void RemoveEnemy(GameObject enemy)
     {
         enemies.Remove(enemy);
+    }
+
+    public void ClearEnemies()
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            if (enemy != null) 
+            {
+                UnityEngine.Object.Destroy(enemy);
+            }
+        }
+        enemies.Clear();
     }
 
     public GameObject GetClosestEnemy(Vector3 point)
