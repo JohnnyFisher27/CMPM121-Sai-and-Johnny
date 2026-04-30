@@ -1,11 +1,14 @@
-using UnityEngine;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.IO;
-using System.Collections.Generic;
-using UnityEngine.UI;
+using Newtonsoft.Json.Linq;
+using RPNEvaluator;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -104,21 +107,55 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemies(SpawnList spawnList)
     {
         Enemy enemy = enemies.Find(t => t.name == spawnList.enemy);
-        StartCoroutine(SpawnEnemy(enemy));
+        var dict = new Dictionary<string, int> { {"wave", current_wave}};
+        int count = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.count, dict);
+        int hp = enemy.hp;
+        if (!spawnList.hp.IsUnityNull())
+        {
+            dict["base"] = enemy.hp;
+            hp = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.hp, dict);
+        }
+        int damage = enemy.damage;
+        if (!spawnList.damage.IsUnityNull())
+        {
+            dict["base"] = enemy.damage;
+            damage = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.damage, dict);
+        }
+        int speed = enemy.speed;
+        if (!spawnList.speed.IsUnityNull())
+        {
+            dict["base"] = enemy.speed;
+            speed = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.speed, dict);
+        }
+        Debug.Log($"count: {count} hp: {hp} damage: {damage} speed {speed}");
+        int total = 0;
+        while (total < count)
+        {
+            foreach (int seqNum in spawnList.sequence)
+            {
+                for (int i = 0; (i < seqNum) && (total < count); i++)
+                {
+                    StartCoroutine(SpawnEnemy(enemy,hp,damage,speed));
+                    total++;
+                }
+                float delay = !string.IsNullOrEmpty(spawnList.delay) ? float.Parse(spawnList.delay) : 2f;
+                yield return new WaitForSeconds(delay);
+            }
+        }
         yield return new WaitForSeconds(0.5f);
     }
-    IEnumerator SpawnEnemy(Enemy data)
+    IEnumerator SpawnEnemy(Enemy data, int hp, int damage, int speed)
     {
-        SpawnPoint spawn_point = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
-        Vector2 offset = Random.insideUnitCircle * 1.8f;
+        SpawnPoint spawn_point = SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
         
         Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
 
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(data.sprite);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
-        en.hp = new Hittable(data.hp, Hittable.Team.MONSTERS, new_enemy);
-        en.speed = data.speed;
+        en.hp = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
+        en.speed = speed;
         GameManager.Instance.AddEnemy(new_enemy);
         yield return new WaitForSeconds(0.5f);
     }
