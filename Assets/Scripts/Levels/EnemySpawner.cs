@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     public List<PlayerClass> classes;
     public List<Levels> levels;
     public string current_level;
-    public int current_wave;
+    public int current_wave = 1;
     public int max_waves;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,6 +49,22 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    void ResetGame()
+    {
+        GameManager.Instance.ClearEnemies();
+        
+        current_wave = 1;
+        current_level = "";
+        max_waves = 0;
+        GameManager.Instance.state = GameManager.GameState.PREGAME;
+        GameManager.Instance.wave_time = 0;
+        GameManager.Instance.countdown = 0;
+
+        StopAllCoroutines();
+
+        level_selector.gameObject.SetActive(true);
+    }
+
     // Counts how long the player has been in the wave for
     void Update()
     {
@@ -56,11 +72,15 @@ public class EnemySpawner : MonoBehaviour
         {
             GameManager.Instance.wave_time += Time.deltaTime;
         }
+        // Level end
+        else if (GameManager.Instance.state == GameManager.GameState.WAVEEND && current_wave >= max_waves)
+        {
+            GameManager.Instance.state = GameManager.GameState.GAMEWON;
+        }
     }
 
     public void StartLevel(string levelname)
     {
-        current_wave = 1;
         current_level = levelname;
         // Checks each level for the wave count and defaults to 1000 for endless
         max_waves = levels.FirstOrDefault(l => l.name == levelname)?.waves ?? 1000;
@@ -73,12 +93,12 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
-        GameManager.Instance.wave_time = 0;
-        // Level end
-        if (current_wave >= max_waves)
+        if (GameManager.Instance.state == GameManager.GameState.GAMEWON || GameManager.Instance.state == GameManager.GameState.GAMEOVER)
         {
+            ResetGame();
             return;
         }
+        GameManager.Instance.wave_time = 0;
         current_wave++;
         StartCoroutine(SpawnWave());
     }

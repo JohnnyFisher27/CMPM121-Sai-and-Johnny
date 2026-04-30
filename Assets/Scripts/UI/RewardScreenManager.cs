@@ -5,7 +5,8 @@ using System.Collections;
 public class RewardScreenManager : MonoBehaviour
 {
     public GameObject rewardUI;
-    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI displayText;
+    public TextMeshProUGUI nextText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +18,20 @@ public class RewardScreenManager : MonoBehaviour
     {
         if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
         {
-            timeText.text = $"Wave took {Mathf.Round(GameManager.Instance.wave_time)} seconds";
+            displayText.text = $"Wave took {Mathf.Round(GameManager.Instance.wave_time)} seconds";
+            nextText.text = "Next Wave";
+            rewardUI.SetActive(true);
+        }
+        else if (GameManager.Instance.state == GameManager.GameState.GAMEWON)
+        {
+            displayText.text = "You win!";
+            nextText.text = "Reset";
+            rewardUI.SetActive(true);
+        }
+        else if (GameManager.Instance.state == GameManager.GameState.GAMEOVER)
+        {
+            displayText.text = "You Died";
+            nextText.text = "Reset";
             rewardUI.SetActive(true);
         }
         else
