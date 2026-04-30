@@ -52,7 +52,7 @@ public class EnemySpawner : MonoBehaviour
     void ResetGame()
     {
         GameManager.Instance.ClearEnemies();
-        
+
         current_wave = 1;
         current_level = "";
         max_waves = 0;
@@ -130,23 +130,33 @@ public class EnemySpawner : MonoBehaviour
         var dict = new Dictionary<string, int> { {"wave", current_wave}};
         int count = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.count, dict);
         int hp = enemy.hp;
-        if (!spawnList.hp.IsUnityNull())
+        if (!string.IsNullOrWhiteSpace(spawnList.hp) && spawnList.hp != "null")
         {
             dict["base"] = enemy.hp;
             hp = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.hp, dict);
         }
+
+        if (hp <= 0)
+        {
+            hp = enemy.hp > 0 ? enemy.hp : 1; 
+        }
+
         int damage = enemy.damage;
-        if (!spawnList.damage.IsUnityNull())
+        if (!string.IsNullOrEmpty(spawnList.damage))
         {
             dict["base"] = enemy.damage;
             damage = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.damage, dict);
         }
+        if (damage < 0) damage = 0;
+
         int speed = enemy.speed;
-        if (!spawnList.speed.IsUnityNull())
+        if (!string.IsNullOrEmpty(spawnList.speed))
         {
             dict["base"] = enemy.speed;
             speed = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.speed, dict);
         }
+        if (speed <= 0) speed = enemy.speed > 0 ? enemy.speed : 1;
+
         Debug.Log($"count: {count} hp: {hp} damage: {damage} speed {speed}");
         int total = 0;
         while (total < count)
