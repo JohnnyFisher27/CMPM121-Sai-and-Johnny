@@ -97,18 +97,14 @@ public class EnemySpawner : MonoBehaviour
             StartCoroutine(SpawnEnemies(spawnList));
         }
 
-        for (int i = 0; i < current_wave; i++)
-        {
-            StartCoroutine(SpawnEnemy(enemies[1]));
-        }
-
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
 
     IEnumerator SpawnEnemies(SpawnList spawnList)
     {
-        Debug.Log(spawnList.enemy);
+        Enemy enemy = enemies.Find(t => t.name == spawnList.enemy);
+        StartCoroutine(SpawnEnemy(enemy));
         yield return new WaitForSeconds(0.5f);
     }
     IEnumerator SpawnEnemy(Enemy data)
