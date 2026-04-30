@@ -90,16 +90,23 @@ public class EnemySpawner : MonoBehaviour
             GameManager.Instance.countdown--;
         }
         GameManager.Instance.state = GameManager.GameState.INWAVE;
-        
-        for (int i = 0; i < current_wave; i++)
+       
+        Levels level = levels.Find(t => t.name == current_level);
+        foreach (SpawnList spawnList in level.spawns) 
         {
-            StartCoroutine(SpawnEnemy(enemies[1]));
+            StartCoroutine(SpawnEnemies(spawnList));
         }
 
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
     }
 
+    IEnumerator SpawnEnemies(SpawnList spawnList)
+    {
+        Enemy enemy = enemies.Find(t => t.name == spawnList.enemy);
+        StartCoroutine(SpawnEnemy(enemy));
+        yield return new WaitForSeconds(0.5f);
+    }
     IEnumerator SpawnEnemy(Enemy data)
     {
         SpawnPoint spawn_point = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
