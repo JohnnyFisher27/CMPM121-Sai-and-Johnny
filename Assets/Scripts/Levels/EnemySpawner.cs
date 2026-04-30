@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
+using RPNEvaluator;
+using Unity.VisualScripting;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -104,6 +106,27 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemies(SpawnList spawnList)
     {
         Enemy enemy = enemies.Find(t => t.name == spawnList.enemy);
+        var dict = new Dictionary<string, int> { {"wave", current_wave}};
+        int count = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.count, dict);
+        int hp = enemy.hp;
+        if (!spawnList.hp.IsUnityNull())
+        {
+            dict["base"] = enemy.hp;
+            hp = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.hp, dict);
+        }
+        int damage = enemy.damage;
+        if (!spawnList.damage.IsUnityNull())
+        {
+            dict["base"] = enemy.damage;
+            damage = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.damage, dict);
+        }
+        int speed = enemy.speed;
+        if (!spawnList.speed.IsUnityNull())
+        {
+            dict["base"] = enemy.speed;
+            speed = RPNEvaluator.RPNEvaluator.Evaluate(spawnList.speed, dict);
+        }
+        Debug.Log($"weee {count}");
         StartCoroutine(SpawnEnemy(enemy));
         yield return new WaitForSeconds(0.5f);
     }

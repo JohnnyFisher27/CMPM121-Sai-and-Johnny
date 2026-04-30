@@ -16,6 +16,7 @@ public class SpawnList
 {
     public string enemy;
     public string count;
+    public string speed;
     public string hp;
     public string delay;
     public List<int> sequence;
