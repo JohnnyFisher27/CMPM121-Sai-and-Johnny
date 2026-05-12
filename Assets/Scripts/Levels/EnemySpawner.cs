@@ -100,6 +100,11 @@ public class EnemySpawner : MonoBehaviour
         }
         GameManager.Instance.wave_time = 0;
         current_wave++;
+
+        PlayerController.Instance.max_hp = current_wave * 5 + 95;
+        PlayerController.Instance.speed = 5;
+        SpellCaster.Instance.max_mana = current_wave * 10 + 90;
+        SpellCaster.Instance.mana_reg = current_wave + 10;
         StartCoroutine(SpawnWave());
     }
 
