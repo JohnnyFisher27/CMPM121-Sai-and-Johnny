@@ -23,6 +23,9 @@ public class EnemySpawner : MonoBehaviour
     public int current_wave = 1;
     public int max_waves;
 
+    public PlayerController playerController;
+    public SpellCaster spellCaster;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -87,7 +90,7 @@ public class EnemySpawner : MonoBehaviour
 
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(current_wave * 5 + 95, current_wave * 10 + 90, current_wave + 10);
         StartCoroutine(SpawnWave());
     }
 
@@ -101,10 +104,10 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.wave_time = 0;
         current_wave++;
 
-        PlayerController.Instance.max_hp = current_wave * 5 + 95;
-        PlayerController.Instance.speed = 5;
-        SpellCaster.Instance.max_mana = current_wave * 10 + 90;
-        SpellCaster.Instance.mana_reg = current_wave + 10;
+        // Player Progression
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(current_wave * 5 + 95, current_wave * 10 + 90, current_wave + 10);
+        GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
+
         StartCoroutine(SpawnWave());
     }
 
