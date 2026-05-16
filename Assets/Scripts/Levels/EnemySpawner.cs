@@ -15,16 +15,13 @@ public class EnemySpawner : MonoBehaviour
     public Image level_selector;
     public GameObject button;
     public GameObject enemy;
-    public SpawnPoint[] SpawnPoints;    
+    public SpawnPoint[] SpawnPoints;
     public List<Enemy> enemies;
     public List<PlayerClass> classes;
     public List<Levels> levels;
     public string current_level;
     public int current_wave = 1;
     public int max_waves;
-
-    public PlayerController playerController;
-    public SpellCaster spellCaster;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
