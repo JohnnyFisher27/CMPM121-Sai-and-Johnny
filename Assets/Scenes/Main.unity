@@ -6298,6 +6298,7 @@ MonoBehaviour:
   spellui: {fileID: 2085212185}
   speed: 5
   unit: {fileID: 0}
+  currentSpell: 1
 --- !u!4 &1718273953
 Transform:
   m_ObjectHideFlags: 0

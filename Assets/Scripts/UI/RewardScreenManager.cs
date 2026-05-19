@@ -11,18 +11,20 @@ public class RewardScreenManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.state == GameManager.GameState.INWAVE) {
+            chooseButton.SetActive(true);
+        }
+
         if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
         {
             displayText.text = $"Wave took {Mathf.Round(GameManager.Instance.wave_time)} seconds";
             nextText.text = "Next Wave";
             rewardUI.SetActive(true);
-            chooseButton.SetActive(true);
         }
         else if (GameManager.Instance.state == GameManager.GameState.GAMEWON)
         {

@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+//using System.Diagnostics;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public int speed;
 
     public Unit unit;
+
+    public int currentSpell = 1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,7 +51,8 @@ public class PlayerController : MonoBehaviour
 
     void OnAttack(InputValue value)
     {
-        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER 
+        || GameManager.Instance.state == GameManager.GameState.GAMEWON || GameManager.Instance.state == GameManager.GameState.WAVEEND) return;
         Vector2 mouseScreen = Mouse.current.position.value;
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
         mouseWorld.z = 0;
@@ -57,8 +61,24 @@ public class PlayerController : MonoBehaviour
 
     void OnMove(InputValue value)
     {
-        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER
+        || GameManager.Instance.state == GameManager.GameState.GAMEWON || GameManager.Instance.state == GameManager.GameState.WAVEEND) return;
+        //Debug.Log(value.Get<Vector2>());
         unit.movement = value.Get<Vector2>()*speed;
+    }
+
+    void OnSwap(InputValue value)
+    {
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER
+        || GameManager.Instance.state == GameManager.GameState.GAMEWON || GameManager.Instance.state == GameManager.GameState.WAVEEND) return;
+        
+        float inputDirection = value.Get<float>();
+
+        if (inputDirection != 0 && currentSpell + (int)inputDirection > 0 && currentSpell + (int)inputDirection <= 4)
+        {
+            currentSpell += (int)inputDirection; 
+            Debug.Log("Current Spell: " + currentSpell);
+        }
     }
 
     void Die()
