@@ -25,12 +25,12 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.player = gameObject;
     }
 
-    public void StartLevel()
+    public void StartLevel(int health, int mana, int mana_reg)
     {
-        spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
+        spellcaster = new SpellCaster(mana, mana_reg, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
         
-        hp = new Hittable(100, Hittable.Team.PLAYER, gameObject);
+        hp = new Hittable(health, Hittable.Team.PLAYER, gameObject);
         hp.OnDeath += Die;
         hp.team = Hittable.Team.PLAYER;
 

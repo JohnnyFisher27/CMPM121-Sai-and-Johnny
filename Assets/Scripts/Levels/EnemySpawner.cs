@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
     public Image level_selector;
     public GameObject button;
     public GameObject enemy;
-    public SpawnPoint[] SpawnPoints;    
+    public SpawnPoint[] SpawnPoints;
     public List<Enemy> enemies;
     public List<PlayerClass> classes;
     public List<Levels> levels;
@@ -87,7 +87,7 @@ public class EnemySpawner : MonoBehaviour
 
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(current_wave * 5 + 95, current_wave * 10 + 90, current_wave + 10);
         StartCoroutine(SpawnWave());
     }
 
@@ -101,10 +101,10 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.wave_time = 0;
         current_wave++;
 
-        PlayerController.Instance.max_hp = current_wave * 5 + 95;
-        PlayerController.Instance.speed = 5;
-        SpellCaster.Instance.max_mana = current_wave * 10 + 90;
-        SpellCaster.Instance.mana_reg = current_wave + 10;
+        // Player Progression
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(current_wave * 5 + 95, current_wave * 10 + 90, current_wave + 10);
+        GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
+
         StartCoroutine(SpawnWave());
     }
 
