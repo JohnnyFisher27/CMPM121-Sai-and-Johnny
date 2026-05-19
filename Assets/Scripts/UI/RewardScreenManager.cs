@@ -7,6 +7,7 @@ public class RewardScreenManager : MonoBehaviour
     public GameObject rewardUI;
     public TextMeshProUGUI displayText;
     public TextMeshProUGUI nextText;
+    public GameObject chooseButton;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,6 +22,7 @@ public class RewardScreenManager : MonoBehaviour
             displayText.text = $"Wave took {Mathf.Round(GameManager.Instance.wave_time)} seconds";
             nextText.text = "Next Wave";
             rewardUI.SetActive(true);
+            chooseButton.SetActive(true);
         }
         else if (GameManager.Instance.state == GameManager.GameState.GAMEWON)
         {
