@@ -16,14 +16,7 @@ public class SpellUIContainer : MonoBehaviour
         numSpells++;
         Debug.Log(numSpells);
         spellUIs[numSpells - 1].SetActive(true);
-        /*if (numSpells == 2)
-            spellUIs[1].SetActive(true);
-        else if (numSpells == 3)
-            spellUIs[2].SetActive(true);
-        else if (numSpells == 4)
-            spellUIs[3].SetActive(true);
-        else
-            Debug.Log("Max Spells Reached");*/
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
