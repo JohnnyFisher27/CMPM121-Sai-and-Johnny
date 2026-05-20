@@ -102,8 +102,14 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.wave_time = 0;
         current_wave++;
 
-        // Player Progression
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(current_wave * 5 + 95, current_wave * 10 + 90, current_wave + 10);
+        // Player Progression 
+        var dict = new Dictionary<string, int> { {"wave", current_wave}};
+        var player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate("95 wave 5 * +", dict); 
+        var player_mana = RPNEvaluator.RPNEvaluator.Evaluate("90 wave 10 * +", dict);
+        var player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate("10 wave +", dict);
+        var player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate("10 wave *", dict);
+
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
         GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
 
         StartCoroutine(SpawnWave());
