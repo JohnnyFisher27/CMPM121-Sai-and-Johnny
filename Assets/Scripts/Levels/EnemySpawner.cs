@@ -98,6 +98,7 @@ public class EnemySpawner : MonoBehaviour
             ResetGame();
             return;
         }
+
         GameManager.Instance.wave_time = 0;
         current_wave++;
 
@@ -162,7 +163,7 @@ public class EnemySpawner : MonoBehaviour
         }
         if (speed <= 0) speed = enemy.speed > 0 ? enemy.speed : 1;
 
-        Debug.Log($"count: {count} hp: {hp} damage: {damage} speed {speed}");
+        //Debug.Log($"count: {count} hp: {hp} damage: {damage} speed {speed}");
         int total = 0;
         while (total < count)
         {
