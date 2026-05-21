@@ -19,9 +19,12 @@ public class PlayerController : MonoBehaviour
     public Unit unit;
 
     public int currentSpell = 1;
-
     public bool[] currentRelics;
     public int spellpower = 10;
+    public int nextSpellBuff;
+    public bool standingStill;
+    public bool playerInvincibile;
+    public float invincibleTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,6 +33,9 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.player = gameObject;
 
         currentRelics = new bool[7] {true, true, true, true, true, true, true}; 
+        nextSpellBuff = 0;
+        invincibleTimer = 0;
+        playerInvincibile = false;
     }
 
     void OnEnable()
@@ -60,7 +66,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (playerInvincibile)
+        {
+            invincibleTimer += Time.deltaTime;
+            if (invincibleTimer >= 5f)
+            {
+                playerInvincibile = false;
+                invincibleTimer = 0;
+            }
+        }
     }
 
     void playerDamaged(Vector3 position, Damage damage, Hittable target)
@@ -71,7 +85,14 @@ public class PlayerController : MonoBehaviour
             {
                 spellcaster.mana += 5;
             }
-            
+            if (currentRelics[2] == true)
+            {
+                nextSpellBuff = 100;
+            }
+            if (currentRelics[6] == true)
+            {
+                playerInvincibile = true;
+            }
         }
     }
 
@@ -89,8 +110,15 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER
         || GameManager.Instance.state == GameManager.GameState.GAMEWON || GameManager.Instance.state == GameManager.GameState.WAVEEND) return;
-        //Debug.Log(value.Get<Vector2>());
+        
         unit.movement = value.Get<Vector2>()*speed;
+
+        if (value.Get<Vector2>() == Vector2.zero)
+        {
+            standingStill = true;
+        } else {
+            standingStill = false;
+        }
     }
 
     void OnSwap(InputValue value)
@@ -107,6 +135,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnBuff(InputValue value)
+    {
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER
+        || GameManager.Instance.state == GameManager.GameState.GAMEWON || GameManager.Instance.state == GameManager.GameState.WAVEEND) return;
+        if (currentRelics[4] == true)
+        {
+            hp.hp += 1;
+        }
+    }
+
     void Die()
     {
         Debug.Log("You Lost");
@@ -114,3 +152,4 @@ public class PlayerController : MonoBehaviour
     }
 
 }
+

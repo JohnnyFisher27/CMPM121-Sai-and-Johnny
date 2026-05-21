@@ -62,7 +62,7 @@
             "type": "on-press"
         },
         "effect": {
-            "description": "You gain 5 HP.",
+            "description": "you gain 1 HP.",
             "type": "gain-health",
             "amount": "5"
         }
@@ -70,26 +70,26 @@
     {
         
         "name": "Momma's Mittens",
-        "sprite": 3,
+        "sprite": 5,
         "trigger": {
             "description": "When you kill an enemy",
             "type": "on-kill"
         },
         "effect": {
-            "description": "Gain 1 speed.",
+            "description": "gain 1 speed.",
             "type": "gain-speed",
             "amount": "1"
         }
     },
     {
         "name": "Super Armor",
-        "sprite": 4,
+        "sprite": 6,
         "trigger": {
             "description": "When you take damage",
-            "type": "on-kill"
+            "type": "take-damage"
         },
         "effect": {
-            "description": "Gain invulnerability for 5s",
+            "description": "gain invulnerability for 5s",
             "type": "gain-invulnerability",
             "amount": "5"
         }

@@ -37,7 +37,10 @@ public class EnemyController : MonoBehaviour
         if (last_attack + 2 < Time.time)
         {
             last_attack = Time.time;
-            target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(5, Damage.Type.PHYSICAL));
+            if (!GameManager.Instance.player.GetComponent<PlayerController>().playerInvincibile)
+            {
+                target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(5, Damage.Type.PHYSICAL));
+            }
         }
     }
 
@@ -46,11 +49,15 @@ public class EnemyController : MonoBehaviour
     {
         if (!dead)
         {
-            if (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[4] == true)
+            if (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[3] == true)
             {
-                Debug.Log("Gain mana");
                 GameManager.Instance.player.GetComponent<PlayerController>().spellcaster.mana += 25;
             }
+            if (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[5] == true)
+            {
+                GameManager.Instance.player.GetComponent<PlayerController>().speed += 1;
+            }
+
             dead = true;
             GameManager.Instance.RemoveEnemy(gameObject);
             Destroy(gameObject);
