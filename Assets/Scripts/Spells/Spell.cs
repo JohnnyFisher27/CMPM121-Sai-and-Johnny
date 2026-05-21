@@ -26,7 +26,7 @@ public class Spell
 
     public int GetDamage()
     {
-        return 100;
+        return GameManager.Instance.player.GetComponent<PlayerController>().spellpower;
     }
 
     public float GetCooldown()

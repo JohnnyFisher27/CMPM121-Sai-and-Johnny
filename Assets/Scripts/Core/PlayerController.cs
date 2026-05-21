@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
-//using System.Diagnostics;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,12 +20,27 @@ public class PlayerController : MonoBehaviour
 
     public int currentSpell = 1;
 
+    public bool[] currentRelics;
+    public int spellpower = 10;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
+
+        currentRelics = new bool[7] {true, true, true, true, true, true, true}; 
     }
+
+    void OnEnable()
+    {
+        EventBus.Instance.OnDamage += playerDamaged;
+    } 
+
+    void OnDisable()
+    {
+        EventBus.Instance.OnDamage -= playerDamaged;
+    } 
 
     public void StartLevel(int health, int mana, int mana_reg)
     {
@@ -46,7 +60,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    void playerDamaged(Vector3 position, Damage damage, Hittable target)
+    {
+        if (target == hp)
+        {
+            if (currentRelics[0] == true)
+            {
+                spellcaster.mana += 5;
+            }
+            
+        }
     }
 
     void OnAttack(InputValue value)
