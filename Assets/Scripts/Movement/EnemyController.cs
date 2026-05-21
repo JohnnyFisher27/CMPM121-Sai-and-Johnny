@@ -46,6 +46,11 @@ public class EnemyController : MonoBehaviour
     {
         if (!dead)
         {
+            if (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[4] == true)
+            {
+                Debug.Log("Gain mana");
+                GameManager.Instance.player.GetComponent<PlayerController>().spellcaster.mana += 25;
+            }
             dead = true;
             GameManager.Instance.RemoveEnemy(gameObject);
             Destroy(gameObject);

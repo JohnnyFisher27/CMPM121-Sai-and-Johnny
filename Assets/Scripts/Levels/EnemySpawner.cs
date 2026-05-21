@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     public List<PlayerClass> classes;
     public List<Levels> levels;
     public string current_level;
-    public int current_wave = 1;
+    public int current_wave;
     public int max_waves;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,6 +47,8 @@ public class EnemySpawner : MonoBehaviour
             difficulty_selector.GetComponent<MenuSelectorController>().spawner = this;
             difficulty_selector.GetComponent<MenuSelectorController>().SetLevel(levels[i].name);
         }
+
+        current_wave = 1;
     }
 
     void ResetGame()
@@ -86,8 +88,9 @@ public class EnemySpawner : MonoBehaviour
         max_waves = levels.FirstOrDefault(l => l.name == levelname)?.waves ?? 1000;
 
         level_selector.gameObject.SetActive(false);
-        // this is not nice: we should not have to be required to tell the player directly that the level is starting
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(current_wave * 5 + 95, current_wave * 10 + 90, current_wave + 10);
+
+        setPlayerStats();
+
         StartCoroutine(SpawnWave());
     }
 
@@ -102,15 +105,7 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.wave_time = 0;
         current_wave++;
 
-        // Player Progression 
-        var dict = new Dictionary<string, int> { {"wave", current_wave}};
-        var player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate("95 wave 5 * +", dict); 
-        var player_mana = RPNEvaluator.RPNEvaluator.Evaluate("90 wave 10 * +", dict);
-        var player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate("10 wave +", dict);
-        var player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate("10 wave *", dict);
-
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
-        GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
+        setPlayerStats();
 
         StartCoroutine(SpawnWave());
     }
@@ -199,6 +194,22 @@ public class EnemySpawner : MonoBehaviour
         en.hp = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
         en.speed = speed;
         GameManager.Instance.AddEnemy(new_enemy);
+
         yield return new WaitForSeconds(0.5f);
     }
+
+    void setPlayerStats()
+    {
+        // Player Progression 
+        var dict = new Dictionary<string, int> { {"wave", current_wave}};
+        int player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate("95 wave 5 * +", dict); 
+        int player_mana = RPNEvaluator.RPNEvaluator.Evaluate("90 wave 10 * +", dict);
+        int player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate("10 wave +", dict);
+        int player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate("10 wave *", dict);
+
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
+        GameManager.Instance.player.GetComponent<PlayerController>().spellpower = player_spell_power;
+        GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
+    }
+
 }
