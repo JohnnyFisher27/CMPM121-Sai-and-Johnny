@@ -22,6 +22,8 @@ public class EnemySpawner : MonoBehaviour
     public string current_level;
     public int current_wave;
     public int max_waves;
+    public float timeStandingStill;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -78,6 +80,27 @@ public class EnemySpawner : MonoBehaviour
         else if (GameManager.Instance.state == GameManager.GameState.WAVEEND && current_wave >= max_waves)
         {
             GameManager.Instance.state = GameManager.GameState.GAMEWON;
+        }
+
+        // CHECK IF PLAYER IS STANDING STILL FOR 3 SECONDS
+        if (GameManager.Instance.player.GetComponent<PlayerController>().standingStill)
+        {
+            timeStandingStill += Time.deltaTime;
+
+        } else
+        {
+            timeStandingStill = 0;
+        }
+
+        // GIVE BUFF
+        if (timeStandingStill >= 3f)
+        {
+            if (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[1] == true)
+            {
+                var dict = new Dictionary<string, int> { {"wave", current_wave}};
+                GameManager.Instance.player.GetComponent<PlayerController>().spellpower += RPNEvaluator.RPNEvaluator.Evaluate("10 wave 5 * +", dict);
+            }
+            timeStandingStill = 0;
         }
     }
 

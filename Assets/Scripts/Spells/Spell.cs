@@ -26,7 +26,7 @@ public class Spell
 
     public int GetDamage()
     {
-        return GameManager.Instance.player.GetComponent<PlayerController>().spellpower;
+        return GameManager.Instance.player.GetComponent<PlayerController>().spellpower + GameManager.Instance.player.GetComponent<PlayerController>().nextSpellBuff;
     }
 
     public float GetCooldown()
@@ -48,6 +48,7 @@ public class Spell
     {
         this.team = team;
         GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, target - where, 15f, OnHit);
+
         yield return new WaitForEndOfFrame();
     }
 
@@ -56,6 +57,7 @@ public class Spell
         if (other.team != team)
         {
             other.Damage(new Damage(GetDamage(), Damage.Type.ARCANE));
+            GameManager.Instance.player.GetComponent<PlayerController>().nextSpellBuff = 0;
         }
 
     }
