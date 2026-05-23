@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public int spellpower = 10;
     public int nextSpellBuff;
     public bool standingStill;
-    public bool playerInvincibile;
+    public bool playerInvincible;
     public float invincibleTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         currentRelics = new bool[7] {true, true, true, true, true, true, true}; 
         nextSpellBuff = 0;
         invincibleTimer = 0;
-        playerInvincibile = false;
+        playerInvincible = false;
     }
 
     void OnEnable()
@@ -66,12 +66,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerInvincibile)
+        if (playerInvincible)
         {
             invincibleTimer += Time.deltaTime;
             if (invincibleTimer >= 5f)
             {
-                playerInvincibile = false;
+                playerInvincible = false;
                 invincibleTimer = 0;
             }
         }
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             }
             if (currentRelics[6] == true)
             {
-                playerInvincibile = true;
+                playerInvincible = true;
             }
         }
     }

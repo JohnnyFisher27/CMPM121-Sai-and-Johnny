@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
         if (last_attack + 2 < Time.time)
         {
             last_attack = Time.time;
-            if (!GameManager.Instance.player.GetComponent<PlayerController>().playerInvincibile)
+            if (!GameManager.Instance.player.GetComponent<PlayerController>().playerInvincible)
             {
                 target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(5, Damage.Type.PHYSICAL));
             }

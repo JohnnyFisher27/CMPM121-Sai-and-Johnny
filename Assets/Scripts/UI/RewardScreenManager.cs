@@ -7,7 +7,14 @@ public class RewardScreenManager : MonoBehaviour
     public GameObject rewardUI;
     public TextMeshProUGUI displayText;
     public TextMeshProUGUI nextText;
+
+    // This is for taking the spell
     public GameObject chooseButton;
+
+    // These are for taking relics
+    public GameObject chooseButton1;
+    public GameObject chooseButton2;
+    public GameObject chooseButton3;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,6 +25,9 @@ public class RewardScreenManager : MonoBehaviour
     {
         if (GameManager.Instance.state == GameManager.GameState.INWAVE) {
             chooseButton.SetActive(true);
+            chooseButton1.SetActive(true);
+            chooseButton2.SetActive(true);
+            chooseButton3.SetActive(true);
         }
 
         if (GameManager.Instance.state == GameManager.GameState.WAVEEND)

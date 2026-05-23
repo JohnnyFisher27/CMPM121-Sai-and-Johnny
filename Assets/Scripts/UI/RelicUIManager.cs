@@ -5,9 +5,14 @@ public class RelicUIManager : MonoBehaviour
     public GameObject relicUIPrefab;
     public PlayerController player;
 
+    public GameObject chooseButton1;
+    public GameObject chooseButton2;
+    public GameObject chooseButton3;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+            
         //EventBus.Instance.OnRelicPickup += OnRelicPickup;
     }
 
@@ -15,6 +20,13 @@ public class RelicUIManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void takeRelic()
+    {
+        chooseButton1.SetActive(false);
+        chooseButton2.SetActive(false);
+        chooseButton3.SetActive(false);
     }
 
     /*public void OnRelicPickup(Relic r)
