@@ -15,12 +15,13 @@ public class SpellBuilder
         string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/modifiers.json");
         modifiers = JsonConvert.DeserializeObject<List<Modifiers>>(jsonString1);
         ModifierSpell modifierSpell = new ModifierSpell(owner);
-        int numModifiers = Random.Range(1, 4);
+        int numModifiers = Random.Range(2, 4);
         for (int ii = 0; ii < numModifiers; ii++)
         {
-            int index = Random.Range(0, modifiers.Count - 1);
+            int index = Random.Range(0, modifiers.Count);
             Debug.Log($"modifier: {ii}, name: {modifiers[index].name}");
-            modifierSpell.addModifier(modifiers[index]);
+            Modifiers modifier = modifiers[index].Clone();
+            modifierSpell.addModifier(modifier);
         }
         //return new Spell(owner);
         Debug.Log(modifierSpell.getDesc());
@@ -28,7 +29,8 @@ public class SpellBuilder
     }
 
     public SpellBuilder()
-    {        
+    {   
+        
     }
 
 }
