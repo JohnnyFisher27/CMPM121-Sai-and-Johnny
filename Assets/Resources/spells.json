@@ -76,22 +76,22 @@
        "damage_multiplier": "0.75",
        "mana_adder": "10",
        "projectile_trajectory": "homing"
-   }
+   },
    "firerate_amp": {
-	"name": "firerate-amplified",
-	"description": "Decreased damage and cooldown.",
-	"damage_multiplier": "0.75",
-	"cooldown_multiplier": "0.5"
+	    "name": "firerate-amplified",
+	    "description": "Decreased damage and cooldown.",
+	    "damage_multiplier": "0.75",
+	    "cooldown_multiplier": "0.5"
    },
    "octupler": {
-	"name": "octupled",
-	"description": "Spell is cast in all eight directions; increased mana cost",
-	"angle": "360",
-        "mana_multiplier": "2"
+	    "name": "octupled",
+	    "description": "Spell is cast in all eight directions; increased mana cost",
+	    "angle": "360",
+      "mana_multiplier": "2"
    },
    "fireworks": {
-	"name": "firework",
-	"description": "5 projectiles come out of spell projectile after collision. Increased cooldown.",
-	"cooldown_multiplier": "2"
-   },
+	    "name": "firework",
+	    "description": "5 projectiles come out of spell projectile after collision. Increased cooldown.",
+	    "cooldown_multiplier": "2"
+   }
 }
