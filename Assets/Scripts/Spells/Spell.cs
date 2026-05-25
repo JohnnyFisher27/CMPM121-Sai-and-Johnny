@@ -8,15 +8,17 @@ public class Spell
     public float last_cast;
     public SpellCaster owner;
     public Hittable.Team team;
+    public string myName;
 
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
+        myName = "Bolt";
     }
 
     public string GetName()
     {
-        return "Bolt";
+        return myName;
     }
 
     public int GetManaCost()

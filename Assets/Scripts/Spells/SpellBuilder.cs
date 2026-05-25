@@ -8,23 +8,23 @@ using System.Collections.Generic;
 public class SpellBuilder 
 {
 
+    public List<Modifiers> modifiers;
+
     public Spell Build(SpellCaster owner)
     {
-        string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/spells.json");
-        string jsonString2 = File.ReadAllText(Application.dataPath + "/Resources/modifiers.json");
-        JObject root = JObject.Parse(jsonString1);
-        JObject root2 = JObject.Parse(jsonString2);
-        foreach (var entry in root)
+        string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/modifiers.json");
+        modifiers = JsonConvert.DeserializeObject<List<Modifiers>>(jsonString1);
+        ModifierSpell modifierSpell = new ModifierSpell(owner);
+        int numModifiers = Random.Range(1, 4);
+        for (int ii = 0; ii < numModifiers; ii++)
         {
-            Debug.Log(entry.Key);
+            int index = Random.Range(0, modifiers.Count - 1);
+            Debug.Log($"modifier: {ii}, name: {modifiers[index].name}");
+            modifierSpell.addModifier(modifiers[index]);
         }
-        foreach (var entry in root2)
-        {
-            Debug.Log(entry.Key);
-        }
-        Debug.Log("SpellCaster speaking !!");
-
-        return new Spell(owner);
+        //return new Spell(owner);
+        Debug.Log(modifierSpell.getDesc());
+        return modifierSpell.getSpell();
     }
 
     public SpellBuilder()
