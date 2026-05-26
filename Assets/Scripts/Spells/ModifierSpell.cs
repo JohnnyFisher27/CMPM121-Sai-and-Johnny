@@ -40,7 +40,7 @@ public class ModifierSpell
             // angle meow
             if (!string.IsNullOrEmpty(modifier.angle))
             {
-                // :3 @todo cuz idk the vision here
+                spell.angle = RPNEvaluator.RPNEvaluator.Evaluatef(modifier.angle, dict);
             }
 
             // damage meow
