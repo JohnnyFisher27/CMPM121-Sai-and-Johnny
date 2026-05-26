@@ -648,6 +648,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: relic1
       objectReference: {fileID: 0}
+    - target: {fileID: 8469991400705853025, guid: 0fc6ca25fb4ca524ab2a9d7d17db72de, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2422,6 +2426,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2577,6 +2582,33 @@ MonoBehaviour:
   current_wave: 0
   max_waves: 0
   timeStandingStill: 0
+  relic: {fileID: 1202924365}
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af741444287254a3dbcb55975e58dd2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReadRelic
+  relics: []
+  relic1: {fileID: 0}
+  relic2: {fileID: 0}
+  relic3: {fileID: 0}
+  greenGemIcon: {fileID: 0}
+  jadeElephantIcon: {fileID: 0}
+  goldenMaskIcon: {fileID: 0}
+  cursedScrollIcon: {fileID: 0}
+  massiveBongIcon: {fileID: 0}
+  mommasMittensIcon: {fileID: 0}
+  superArmorIcon: {fileID: 0}
+  relicIcon1: {fileID: 0}
+  relicIcon2: {fileID: 0}
+  relicIcon3: {fileID: 0}
 --- !u!1 &532755679
 GameObject:
   m_ObjectHideFlags: 0
@@ -3493,6 +3525,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692553902}
   m_CullTransparentMesh: 1
+--- !u!114 &746219196 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4117733509820137324, guid: 0fc6ca25fb4ca524ab2a9d7d17db72de, type: 3}
+  m_PrefabInstance: {fileID: 1107987870}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &757752466
 GameObject:
   m_ObjectHideFlags: 0
@@ -5362,7 +5405,7 @@ GameObject:
   - component: {fileID: 1202924361}
   - component: {fileID: 1202924360}
   - component: {fileID: 1202924362}
-  - component: {fileID: 1202924363}
+  - component: {fileID: 1202924365}
   m_Layer: 5
   m_Name: RelicUI
   m_TagString: Untagged
@@ -5444,7 +5487,7 @@ MonoBehaviour:
   chooseButton1: {fileID: 1544260197}
   chooseButton2: {fileID: 1543485967}
   chooseButton3: {fileID: 1790653044}
---- !u!114 &1202924363
+--- !u!114 &1202924365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5460,7 +5503,16 @@ MonoBehaviour:
   relic1: {fileID: 2079568411}
   relic2: {fileID: 1167565787}
   relic3: {fileID: 70806381}
-  relicNames: []
+  greenGemIcon: {fileID: 4799308570744897924, guid: e621137f9197f0842a52168123ca0298, type: 3}
+  jadeElephantIcon: {fileID: -482307933154396141, guid: e621137f9197f0842a52168123ca0298, type: 3}
+  goldenMaskIcon: {fileID: -92911602462005183, guid: e621137f9197f0842a52168123ca0298, type: 3}
+  cursedScrollIcon: {fileID: 180284281752011486, guid: e621137f9197f0842a52168123ca0298, type: 3}
+  massiveBongIcon: {fileID: -8241087092253081683, guid: e621137f9197f0842a52168123ca0298, type: 3}
+  mommasMittensIcon: {fileID: 6781672622318241370, guid: e621137f9197f0842a52168123ca0298, type: 3}
+  superArmorIcon: {fileID: -3320070870488885157, guid: e621137f9197f0842a52168123ca0298, type: 3}
+  relicIcon1: {fileID: 1538000019}
+  relicIcon2: {fileID: 1951269020}
+  relicIcon3: {fileID: 746219196}
 --- !u!1 &1218915916
 GameObject:
   m_ObjectHideFlags: 0
@@ -6549,6 +6601,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1528944909}
   m_CullTransparentMesh: 1
+--- !u!114 &1538000019 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4117733509820137324, guid: 0fc6ca25fb4ca524ab2a9d7d17db72de, type: 3}
+  m_PrefabInstance: {fileID: 136763589}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1543485967
 GameObject:
   m_ObjectHideFlags: 0
@@ -58363,6 +58426,17 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1951269020 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4117733509820137324, guid: 0fc6ca25fb4ca524ab2a9d7d17db72de, type: 3}
+  m_PrefabInstance: {fileID: 450736877}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1958865357
 GameObject:
   m_ObjectHideFlags: 0
