@@ -17,7 +17,17 @@ public class ReadRelic : MonoBehaviour
     public GameObject relic2;
     public GameObject relic3;
 
-    public List<string> relicNames;
+    public Sprite greenGemIcon;
+    public Sprite jadeElephantIcon;
+    public Sprite goldenMaskIcon;
+    public Sprite cursedScrollIcon;
+    public Sprite massiveBongIcon;
+    public Sprite mommasMittensIcon;
+    public Sprite superArmorIcon;
+
+    public Image relicIcon1;
+    public Image relicIcon2;
+    public Image relicIcon3;
 
     void Start()
     {
@@ -37,14 +47,13 @@ public class ReadRelic : MonoBehaviour
             Debug.Log(relics[i].effect.amount);
             Debug.Log(relics[i].effect.until);
 
-            relicNames.Add(relics[i].name);
         }
 
-        pickRelic();  
     }
 
-    void pickRelic()
+    public void pickRelic()
     {
+
         int num1 = UnityEngine.Random.Range(0, relics.Count);
         int num2 = UnityEngine.Random.Range(0, relics.Count);
         int num3 = UnityEngine.Random.Range(0, relics.Count);
@@ -59,10 +68,85 @@ public class ReadRelic : MonoBehaviour
             num3 = UnityEngine.Random.Range(0, relics.Count);
         }
 
-        Debug.Log("Randomly picked relic: " + relics[num1].name);
-        Debug.Log("Randomly picked relic: " + relics[num2].name);
-        Debug.Log("Randomly picked relic: " + relics[num3].name);
-
+        switch (relics[num1].sprite) {
+            case 0:
+                relicIcon1.sprite = greenGemIcon;
+                break;
+            case 1:
+                relicIcon1.sprite = jadeElephantIcon;
+                break;
+            case 2:
+                relicIcon1.sprite = goldenMaskIcon;
+                break;
+            case 3:
+                relicIcon1.sprite = cursedScrollIcon;
+                break;
+            case 4:
+                relicIcon1.sprite = massiveBongIcon;
+                break;
+            case 5:
+                relicIcon1.sprite = mommasMittensIcon;
+                break;
+            case 6:
+                relicIcon1.sprite = superArmorIcon;
+                break;
+            default:
+                Debug.Log("Failed to get num1 sprite");
+                break;
+        }
+        switch (relics[num2].sprite) {
+            case 0:
+                relicIcon2.sprite = greenGemIcon;
+                break;
+            case 1:
+                relicIcon2.sprite = jadeElephantIcon;
+                break;
+            case 2:
+                relicIcon2.sprite = goldenMaskIcon;
+                break;
+            case 3:
+                relicIcon2.sprite = cursedScrollIcon;
+                break;
+            case 4:
+                relicIcon2.sprite = massiveBongIcon;
+                break;
+            case 5:
+                relicIcon2.sprite = mommasMittensIcon;
+                break;
+            case 6:
+                relicIcon2.sprite = superArmorIcon;
+                break;
+            default:
+                Debug.Log("Failed to get num2 sprite");
+                break;
+        }
+        switch (relics[num3].sprite) {
+            case 0:
+                relicIcon3.sprite = greenGemIcon;
+                break;
+            case 1:
+                relicIcon3.sprite = jadeElephantIcon;
+                break;
+            case 2:
+                relicIcon3.sprite = goldenMaskIcon;
+                break;
+            case 3:
+                relicIcon3.sprite = cursedScrollIcon;
+                break;
+            case 4:
+                relicIcon3.sprite = massiveBongIcon;
+                break;
+            case 5:
+                relicIcon3.sprite = mommasMittensIcon;
+                break;
+            case 6:
+                relicIcon3.sprite = superArmorIcon;
+                break;
+            default:
+                Debug.Log("Failed to get num3 sprite");
+                break;
+        }   
+            
     }
 
     // Update is called once per frame

@@ -23,11 +23,13 @@ public class EnemySpawner : MonoBehaviour
     public int current_wave;
     public int max_waves;
     public float timeStandingStill;
-
+    
+    public ReadRelic relic;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         // Enemies deserialized
         string jsonString1 = File.ReadAllText(Application.dataPath + "/Resources/enemies.json");
         enemies = JsonConvert.DeserializeObject<List<Enemy>>(jsonString1);
@@ -51,6 +53,7 @@ public class EnemySpawner : MonoBehaviour
         }
 
         current_wave = 1;
+
     }
 
     void ResetGame()
@@ -113,6 +116,7 @@ public class EnemySpawner : MonoBehaviour
         level_selector.gameObject.SetActive(false);
 
         setPlayerStats();
+        relic.pickRelic();
 
         StartCoroutine(SpawnWave());
     }
@@ -129,6 +133,7 @@ public class EnemySpawner : MonoBehaviour
         current_wave++;
 
         setPlayerStats();
+        relic.pickRelic();
 
         StartCoroutine(SpawnWave());
     }
