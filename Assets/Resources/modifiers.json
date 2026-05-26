@@ -1,0 +1,56 @@
+[
+   {
+       "name": "damage-amplified",
+       "description": "Increased damage and increased mana cost.",
+       "damage_multiplier": "1.5",
+       "mana_multiplier": "1.5"
+   },
+   {
+       "name": "speed-amplified",
+       "description": "Faster projectile speed",
+       "speed_multiplier": "1.75"
+   },
+   {
+       "name": "doubled",
+       "description": "Spell is cast a second time after a small delay; increased mana cost and cooldown.",
+       "delay": "0.5",
+       "mana_multiplier": "1.5",
+       "cooldown_multiplier": "1.5"
+   },
+   {
+       "name": "split",
+       "description": "Spell is cast twice in slightly different directions; increased mana cost.",
+       "angle": "10",
+       "mana_multiplier": "1.5"
+   },
+   {
+       "name": "chaotic",
+       "description": "Significantly increased damage, but projectile is spiraling.",
+       "damage_multiplier": "1.5 wave 5 / +",
+       "projectile_trajectory": "spiraling"
+   },
+   {
+       "name": "homing",
+       "description": "Homing projectile, with decreased damage and increased mana cost.",
+       "damage_multiplier": "0.75",
+       "mana_adder": "10",
+       "projectile_trajectory": "homing"
+   },
+  {
+	    "name": "firerate-amplified",
+	    "description": "Decreased damage and cooldown.",
+	    "damage_multiplier": "0.75",
+	    "cooldown_multiplier": "0.5"
+   },
+   {
+	    "name": "octupled",
+	    "description": "Spell is cast in all eight directions; increased mana cost",
+	    "angle": "360",
+      "mana_multiplier": "2"
+   },
+   {
+	    "name": "firework",
+	    "description": "5 projectiles come out of spell projectile after collision. Increased cooldown.",
+	    "cooldown_multiplier": "2"
+   }
+]

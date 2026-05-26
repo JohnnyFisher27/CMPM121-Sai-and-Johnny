@@ -8,30 +8,41 @@ public class Spell
     public float last_cast;
     public SpellCaster owner;
     public Hittable.Team team;
+    public string myName;
+    public float damageMultiplier;
+    public int manaCost;
+    public float cooldown;
+    public float speed;
 
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
+        myName = "Bolt";
+        damageMultiplier = 1f;
+        manaCost = 10;
+        cooldown = 0.75f;
+        speed = 15f;
+
     }
 
     public string GetName()
     {
-        return "Bolt";
+        return myName;
     }
 
     public int GetManaCost()
     {
-        return 10;
+        return manaCost;
     }
 
     public int GetDamage()
     {
-        return GameManager.Instance.player.GetComponent<PlayerController>().spellpower + GameManager.Instance.player.GetComponent<PlayerController>().nextSpellBuff;
+        return (int)(damageMultiplier * (float)(GameManager.Instance.player.GetComponent<PlayerController>().spellpower + GameManager.Instance.player.GetComponent<PlayerController>().nextSpellBuff));
     }
 
     public float GetCooldown()
     {
-        return 0.75f;
+        return cooldown;
     }
 
     public virtual int GetIcon()
@@ -47,7 +58,7 @@ public class Spell
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         this.team = team;
-        GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, target - where, 15f, OnHit);
+        GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, target - where, speed, OnHit);
 
         yield return new WaitForEndOfFrame();
     }
