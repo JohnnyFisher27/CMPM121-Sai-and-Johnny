@@ -9,7 +9,7 @@ public class Spell
     public SpellCaster owner;
     public Hittable.Team team;
     public string myName;
-    public int damageMultiplier;
+    public float damageMultiplier;
     public int manaCost;
     public float cooldown;
     public float speed;
@@ -18,7 +18,7 @@ public class Spell
     {
         this.owner = owner;
         myName = "Bolt";
-        damageMultiplier = 1;
+        damageMultiplier = 1f;
         manaCost = 10;
         cooldown = 0.75f;
         speed = 15f;
@@ -37,9 +37,7 @@ public class Spell
 
     public int GetDamage()
     {
-        
-        return (GameManager.Instance.player.GetComponent<PlayerController>().spellpower 
-            + GameManager.Instance.player.GetComponent<PlayerController>().nextSpellBuff) * damageMultiplier;
+        return (int)(damageMultiplier * (float)(GameManager.Instance.player.GetComponent<PlayerController>().spellpower + GameManager.Instance.player.GetComponent<PlayerController>().nextSpellBuff));
     }
 
     public float GetCooldown()
