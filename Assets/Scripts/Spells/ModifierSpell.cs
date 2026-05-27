@@ -33,13 +33,14 @@ public class ModifierSpell
             // delay meow
             if (!string.IsNullOrEmpty(modifier.delay))
             {
+                spell.delay = RPNEvaluator.RPNEvaluator.Evaluatef(modifier.delay, dict);
                 Debug.Log(modifier.delay);
             }
 
             // angle meow
             if (!string.IsNullOrEmpty(modifier.angle))
             {
-                // :3
+                spell.angle = RPNEvaluator.RPNEvaluator.Evaluatef(modifier.angle, dict);
             }
 
             // damage meow
@@ -57,7 +58,7 @@ public class ModifierSpell
             // mana adder meow
             if (!string.IsNullOrEmpty(modifier.mana_adder))
             {
-                // :3
+                spell.manaCost += RPNEvaluator.RPNEvaluator.Evaluate(modifier.mana_adder, dict);
             }
 
             // speed meow
@@ -75,7 +76,7 @@ public class ModifierSpell
             // projectile trajectory meow
             if (!string.IsNullOrEmpty(modifier.projectile_trajectory))
             {
-                // :3
+                spell.trajectory = modifier.projectile_trajectory;
             }
         }
         return spell;

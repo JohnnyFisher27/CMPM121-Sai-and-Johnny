@@ -9,19 +9,23 @@ public class Spell
     public SpellCaster owner;
     public Hittable.Team team;
     public string myName;
+    public float delay;
     public float damageMultiplier;
     public int manaCost;
     public float cooldown;
     public float speed;
+    public string trajectory;
 
     public Spell(SpellCaster owner)
     {
         this.owner = owner;
         myName = "Bolt";
+        delay = 0f;
         damageMultiplier = 1f;
         manaCost = 10;
         cooldown = 0.75f;
         speed = 15f;
+        trajectory = "straight";
 
     }
 
@@ -58,8 +62,8 @@ public class Spell
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         this.team = team;
-        GameManager.Instance.projectileManager.CreateProjectile(0, "straight", where, target - where, speed, OnHit);
-
+        yield return new WaitForSeconds(delay);
+        GameManager.Instance.projectileManager.CreateProjectile(0, trajectory, where, target - where, speed, OnHit);
         yield return new WaitForEndOfFrame();
     }
 
