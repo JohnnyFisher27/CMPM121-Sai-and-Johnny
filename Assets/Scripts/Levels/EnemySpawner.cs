@@ -137,15 +137,15 @@ public class EnemySpawner : MonoBehaviour
         setPlayerStats();
 
         // Relics are shown and can be selected every 3 waves
-        if (current_wave % 1 == 0 && GameManager.Instance.numRelics < 5)
+        if (current_wave % 3 == 0 && GameManager.Instance.numRelics < 5)
         {
             Debug.Log("Pick Relics");
             relic.relicPicks();
-        } else if (current_wave % 1 == 0 && GameManager.Instance.numRelics == 5)
+        } else if (current_wave % 3 == 0 && GameManager.Instance.numRelics == 5)
         {
             Debug.Log("Two Left");
             relic.twoRelicsLeft();
-        } else if (current_wave % 1 == 0 && GameManager.Instance.numRelics == 6)
+        } else if (current_wave % 3 == 0 && GameManager.Instance.numRelics == 6)
         {
             Debug.Log("One Left");
             relic.oneRelicLeft();
@@ -254,9 +254,9 @@ public class EnemySpawner : MonoBehaviour
         int player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate("10 wave +", dict);
         int player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate("10 wave *", dict);
 
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(1000, 1000, 1000);
-        GameManager.Instance.player.GetComponent<PlayerController>().spellpower = 1000;
-        GameManager.Instance.player.GetComponent<PlayerController>().speed = 20;
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
+        GameManager.Instance.player.GetComponent<PlayerController>().spellpower = player_spell_power;
+        GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
     }
 
 }
