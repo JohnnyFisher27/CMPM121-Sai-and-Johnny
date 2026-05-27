@@ -14,6 +14,7 @@ public class Spell
     public int manaCost;
     public float cooldown;
     public float speed;
+    public float angle;
     public string trajectory;
 
     public Spell(SpellCaster owner)
@@ -25,6 +26,7 @@ public class Spell
         manaCost = 10;
         cooldown = 0.75f;
         speed = 15f;
+        angle = 0f;
         trajectory = "straight";
 
     }
