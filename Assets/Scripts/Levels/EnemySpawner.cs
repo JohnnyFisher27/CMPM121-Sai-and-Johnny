@@ -66,6 +66,7 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.state = GameManager.GameState.PREGAME;
         GameManager.Instance.wave_time = 0;
         GameManager.Instance.countdown = 0;
+        GameManager.Instance.numRelics = 0;
         GameManager.Instance.player.GetComponent<PlayerController>().currentRelics = new bool[7] {false, false, false, false, false, false, false}; 
 
         StopAllCoroutines();
@@ -106,6 +107,7 @@ public class EnemySpawner : MonoBehaviour
             }
             timeStandingStill = 0;
         }
+        //GameManager.Instance.ClearEnemies();
     }
 
     public void StartLevel(string levelname)
@@ -135,14 +137,21 @@ public class EnemySpawner : MonoBehaviour
         setPlayerStats();
 
         // Relics are shown and can be selected every 3 waves
-        if (current_wave % 2 == 0)
+        if (current_wave % 1 == 0 && GameManager.Instance.numRelics < 5)
         {
-            GameManager.Instance.showRelics = true;
+            Debug.Log("Pick Relics");
             relic.relicPicks();
+        } else if (current_wave % 1 == 0 && GameManager.Instance.numRelics == 5)
+        {
+            Debug.Log("Two Left");
+            relic.twoRelicsLeft();
+        } else if (current_wave % 1 == 0 && GameManager.Instance.numRelics == 6)
+        {
+            Debug.Log("One Left");
+            relic.oneRelicLeft();
         } else
         {
-            GameManager.Instance.showRelics = false;
-            relic.relicPicks();
+            relic.dontShowRelics();
         }
 
         StartCoroutine(SpawnWave());
