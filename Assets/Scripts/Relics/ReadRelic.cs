@@ -9,6 +9,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class ReadRelic : MonoBehaviour
 {
@@ -24,10 +26,24 @@ public class ReadRelic : MonoBehaviour
     public Sprite massiveBongIcon;
     public Sprite mommasMittensIcon;
     public Sprite superArmorIcon;
+    public Sprite emptyIcon;
 
     public Image relicIcon1;
     public Image relicIcon2;
     public Image relicIcon3;
+
+    public TextMeshProUGUI relicText1;
+    public TextMeshProUGUI relicText2;
+    public TextMeshProUGUI relicText3;
+
+    public GameObject chooseButton1;
+    public GameObject chooseButton2;
+    public GameObject chooseButton3;
+
+    public int num1;
+    public int num2;
+    public int num3;
+
 
     void Start()
     {
@@ -35,38 +51,39 @@ public class ReadRelic : MonoBehaviour
         string jsonString = File.ReadAllText(Application.dataPath + "/Resources/relics.json");
         relics = JsonConvert.DeserializeObject<List<Relic>>(jsonString);
 
-        for (int i = 0; i < relics.Count; i++)
-        {
-            Debug.Log(relics[i].name);
-            Debug.Log(relics[i].sprite);
-            Debug.Log(relics[i].trigger.description);
-            Debug.Log(relics[i].trigger.type);
-            Debug.Log(relics[i].trigger.amount);
-            Debug.Log(relics[i].effect.description);
-            Debug.Log(relics[i].effect.type);
-            Debug.Log(relics[i].effect.amount);
-            Debug.Log(relics[i].effect.until);
-
-        }
-
     }
 
-    public void pickRelic()
+    public void relicPicks()
     {
 
-        int num1 = UnityEngine.Random.Range(0, relics.Count);
-        int num2 = UnityEngine.Random.Range(0, relics.Count);
-        int num3 = UnityEngine.Random.Range(0, relics.Count);
+        num1 = UnityEngine.Random.Range(0, relics.Count);
+        num2 = UnityEngine.Random.Range(0, relics.Count);
+        num3 = UnityEngine.Random.Range(0, relics.Count);
 
-        while (num2 == num1 || num2 == num3)
+        while (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num1] == true)
+        {
+            num1 = UnityEngine.Random.Range(0, relics.Count);
+        }
+
+        while (num2 == num1 || num2 == num3 || GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num2] == true)
         {
             num2 = UnityEngine.Random.Range(0, relics.Count);
         }
 
-        while (num3 == num1 || num3 == num2)
+        while (num3 == num1 || num3 == num2 || GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num3] == true)
         {
             num3 = UnityEngine.Random.Range(0, relics.Count);
         }
+
+        Debug.Log("Num1: " + num1 + " Num2: " + num2 + " Num3: " + num3);
+
+        relicText1.text = relics[num1].trigger.description + " " + relics[num1].effect.description;
+        relicText2.text = relics[num2].trigger.description + " " + relics[num2].effect.description;
+        relicText3.text = relics[num3].trigger.description + " " + relics[num3].effect.description;
+
+        relicIcon1.gameObject.GetComponent<Image>().enabled = true;
+        relicIcon2.gameObject.GetComponent<Image>().enabled = true;
+        relicIcon3.gameObject.GetComponent<Image>().enabled = true;
 
         switch (relics[num1].sprite) {
             case 0:
@@ -144,9 +161,45 @@ public class ReadRelic : MonoBehaviour
                 break;
             default:
                 Debug.Log("Failed to get num3 sprite");
-                break;
-        }   
-            
+            break;
+        }
+        if (GameManager.Instance.showRelics == false)
+        {
+            Debug.Log("False");
+            relicIcon1.gameObject.GetComponent<Image>().enabled = false;
+            relicIcon2.gameObject.GetComponent<Image>().enabled = false;
+            relicIcon3.gameObject.GetComponent<Image>().enabled = false;
+
+            relicText1.text = "";
+            relicText2.text = "";
+            relicText3.text = "";
+        }
+        
+    }
+
+    public void takeRelic1()
+    {
+        takeAnyRelic();
+        GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num1] = true;
+    }
+
+    public void takeRelic2()
+    {
+        takeAnyRelic();
+        GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num2] = true;
+    }
+
+    public void takeRelic3()
+    {
+        takeAnyRelic();
+        GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num3] = true;
+    }
+
+    void takeAnyRelic()
+    {
+        chooseButton1.SetActive(false);
+        chooseButton2.SetActive(false);
+        chooseButton3.SetActive(false);
     }
 
     // Update is called once per frame

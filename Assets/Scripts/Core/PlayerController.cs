@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
 
-        currentRelics = new bool[7] {true, true, true, true, true, true, true}; 
+        currentRelics = new bool[7] {false, false, false, false, false, false, false}; 
         nextSpellBuff = 0;
         invincibleTimer = 0;
         playerInvincible = false;
