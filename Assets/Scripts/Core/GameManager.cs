@@ -37,8 +37,8 @@ public class GameManager
 
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
+    public int numRelics;
 
-    public bool showRelics = false;
 
     public void AddEnemy(GameObject enemy)
     {

@@ -4044,7 +4044,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -3.1348267, y: 3.0855255, z: -1.4146423, w: 2.9072266}
+  m_margin: {x: -0.049316406, y: 0, z: 0.642334, w: -0.17829895}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -5453,7 +5453,6 @@ MonoBehaviour:
   num1: 0
   num2: 0
   num3: 0
-  numberOfRelics: 0
 --- !u!1 &1218915916
 GameObject:
   m_ObjectHideFlags: 0

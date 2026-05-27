@@ -38,10 +38,10 @@ public class ModifierSpell
             }
 
             // angle meow
-            if (!string.IsNullOrEmpty(modifier.angle))
+            /*if (!string.IsNullOrEmpty(modifier.angle))
             {
                 spell.angle = RPNEvaluator.RPNEvaluator.Evaluatef(modifier.angle, dict);
-            }
+            }*/
 
             // damage meow
             if (!string.IsNullOrEmpty(modifier.damage_multiplier))

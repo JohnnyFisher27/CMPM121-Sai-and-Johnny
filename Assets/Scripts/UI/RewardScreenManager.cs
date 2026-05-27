@@ -11,30 +11,17 @@ public class RewardScreenManager : MonoBehaviour
     // This is for taking the spell
     public GameObject chooseButton;
 
-    // These are for taking relics
-    public GameObject chooseButton1;
-    public GameObject chooseButton2;
-    public GameObject chooseButton3;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        chooseButton1.SetActive(false);
-        chooseButton2.SetActive(false);
-        chooseButton3.SetActive(false);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         if (GameManager.Instance.state == GameManager.GameState.INWAVE) {
-            chooseButton.SetActive(true);
-            if (GameManager.Instance.showRelics)
-            {
-                chooseButton1.SetActive(true);
-                chooseButton2.SetActive(true);
-                chooseButton3.SetActive(true);
-            }
-            
+            chooseButton.SetActive(true);      
         }
 
         if (GameManager.Instance.state == GameManager.GameState.WAVEEND)

@@ -44,13 +44,13 @@ public class ReadRelic : MonoBehaviour
     public int num2;
     public int num3;
 
-
     void Start()
     {
         // Relics deserialized
         string jsonString = File.ReadAllText(Application.dataPath + "/Resources/relics.json");
         relics = JsonConvert.DeserializeObject<List<Relic>>(jsonString);
 
+        turnOffButtons();
     }
 
     public void relicPicks()
@@ -84,6 +84,10 @@ public class ReadRelic : MonoBehaviour
         relicIcon1.gameObject.GetComponent<Image>().enabled = true;
         relicIcon2.gameObject.GetComponent<Image>().enabled = true;
         relicIcon3.gameObject.GetComponent<Image>().enabled = true;
+
+        chooseButton1.SetActive(true);
+        chooseButton2.SetActive(true);
+        chooseButton3.SetActive(true);
 
         switch (relics[num1].sprite) {
             case 0:
@@ -163,18 +167,134 @@ public class ReadRelic : MonoBehaviour
                 Debug.Log("Failed to get num3 sprite");
             break;
         }
-        if (GameManager.Instance.showRelics == false)
-        {
-            Debug.Log("False");
-            relicIcon1.gameObject.GetComponent<Image>().enabled = false;
-            relicIcon2.gameObject.GetComponent<Image>().enabled = false;
-            relicIcon3.gameObject.GetComponent<Image>().enabled = false;
+        
+    }
 
-            relicText1.text = "";
-            relicText2.text = "";
-            relicText3.text = "";
+    public void twoRelicsLeft()
+    {
+        num2 = UnityEngine.Random.Range(0, relics.Count);
+        num3 = UnityEngine.Random.Range(0, relics.Count);
+
+        while (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num2] == true)
+        {
+            num2 = UnityEngine.Random.Range(0, relics.Count);
+        }
+
+        while (num2 == num3 || GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num3] == true)
+        {
+            num3 = UnityEngine.Random.Range(0, relics.Count);
+        }
+
+        relicText1.text = "";
+        relicText2.text = relics[num2].trigger.description + " " + relics[num2].effect.description;
+        relicText3.text = relics[num3].trigger.description + " " + relics[num3].effect.description;
+
+        relicIcon1.gameObject.GetComponent<Image>().enabled = false;
+        relicIcon2.gameObject.GetComponent<Image>().enabled = true;
+        relicIcon3.gameObject.GetComponent<Image>().enabled = true;
+
+        chooseButton2.SetActive(true);
+        chooseButton3.SetActive(true);
+
+        switch (relics[num2].sprite) {
+            case 0:
+                relicIcon2.sprite = greenGemIcon;
+                break;
+            case 1:
+                relicIcon2.sprite = jadeElephantIcon;
+                break;
+            case 2:
+                relicIcon2.sprite = goldenMaskIcon;
+                break;
+            case 3:
+                relicIcon2.sprite = cursedScrollIcon;
+                break;
+            case 4:
+                relicIcon2.sprite = massiveBongIcon;
+                break;
+            case 5:
+                relicIcon2.sprite = mommasMittensIcon;
+                break;
+            case 6:
+                relicIcon2.sprite = superArmorIcon;
+                break;
+            default:
+                Debug.Log("Failed to get num2 sprite");
+                break;
+        }
+        switch (relics[num3].sprite) {
+            case 0:
+                relicIcon3.sprite = greenGemIcon;
+                break;
+            case 1:
+                relicIcon3.sprite = jadeElephantIcon;
+                break;
+            case 2:
+                relicIcon3.sprite = goldenMaskIcon;
+                break;
+            case 3:
+                relicIcon3.sprite = cursedScrollIcon;
+                break;
+            case 4:
+                relicIcon3.sprite = massiveBongIcon;
+                break;
+            case 5:
+                relicIcon3.sprite = mommasMittensIcon;
+                break;
+            case 6:
+                relicIcon3.sprite = superArmorIcon;
+                break;
+            default:
+                Debug.Log("Failed to get num3 sprite");
+            break;
         }
         
+    }
+
+    public void oneRelicLeft()
+    {
+        num3 = UnityEngine.Random.Range(0, relics.Count);
+
+        while (GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num3] == true)
+        {
+            num3 = UnityEngine.Random.Range(0, relics.Count);
+        }
+
+        relicText2.text = "";
+        relicText3.text = relics[num3].trigger.description + " " + relics[num3].effect.description;
+
+        relicIcon2.gameObject.GetComponent<Image>().enabled = false;
+        relicIcon3.gameObject.GetComponent<Image>().enabled = true;
+
+        chooseButton3.SetActive(true);
+
+        switch (relics[num3].sprite) {
+            case 0:
+                relicIcon3.sprite = greenGemIcon;
+                break;
+            case 1:
+                relicIcon3.sprite = jadeElephantIcon;
+                break;
+            case 2:
+                relicIcon3.sprite = goldenMaskIcon;
+                break;
+            case 3:
+                relicIcon3.sprite = cursedScrollIcon;
+                break;
+            case 4:
+                relicIcon3.sprite = massiveBongIcon;
+                break;
+            case 5:
+                relicIcon3.sprite = mommasMittensIcon;
+                break;
+            case 6:
+                relicIcon3.sprite = superArmorIcon;
+                break;
+            default:
+                Debug.Log("Failed to get num3 sprite");
+            break;
+        }
+
     }
 
     public void takeRelic1()
@@ -195,7 +315,26 @@ public class ReadRelic : MonoBehaviour
         GameManager.Instance.player.GetComponent<PlayerController>().currentRelics[num3] = true;
     }
 
+    public void dontShowRelics()
+    {
+        relicIcon1.gameObject.GetComponent<Image>().enabled = false;
+        relicIcon2.gameObject.GetComponent<Image>().enabled = false;
+        relicIcon3.gameObject.GetComponent<Image>().enabled = false;
+
+        relicText1.text = "";
+        relicText2.text = "";
+        relicText3.text = "";
+
+        turnOffButtons();
+    }
+
     void takeAnyRelic()
+    {
+        turnOffButtons();
+        GameManager.Instance.numRelics++;
+    }
+
+    void turnOffButtons()
     {
         chooseButton1.SetActive(false);
         chooseButton2.SetActive(false);
@@ -205,6 +344,5 @@ public class ReadRelic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 }
