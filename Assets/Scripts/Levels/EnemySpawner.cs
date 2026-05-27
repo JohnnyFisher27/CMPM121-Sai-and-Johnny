@@ -66,6 +66,7 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.state = GameManager.GameState.PREGAME;
         GameManager.Instance.wave_time = 0;
         GameManager.Instance.countdown = 0;
+        GameManager.Instance.player.GetComponent<PlayerController>().currentRelics = new bool[7] {false, false, false, false, false, false, false}; 
 
         StopAllCoroutines();
 
@@ -116,7 +117,6 @@ public class EnemySpawner : MonoBehaviour
         level_selector.gameObject.SetActive(false);
 
         setPlayerStats();
-        relic.pickRelic();
 
         StartCoroutine(SpawnWave());
     }
@@ -133,7 +133,17 @@ public class EnemySpawner : MonoBehaviour
         current_wave++;
 
         setPlayerStats();
-        relic.pickRelic();
+
+        // Relics are shown and can be selected every 3 waves
+        if (current_wave % 2 == 0)
+        {
+            GameManager.Instance.showRelics = true;
+            relic.relicPicks();
+        } else
+        {
+            GameManager.Instance.showRelics = false;
+            relic.relicPicks();
+        }
 
         StartCoroutine(SpawnWave());
     }
@@ -235,9 +245,9 @@ public class EnemySpawner : MonoBehaviour
         int player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate("10 wave +", dict);
         int player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate("10 wave *", dict);
 
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
-        GameManager.Instance.player.GetComponent<PlayerController>().spellpower = player_spell_power;
-        GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
+        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(1000, 1000, 1000);
+        GameManager.Instance.player.GetComponent<PlayerController>().spellpower = 1000;
+        GameManager.Instance.player.GetComponent<PlayerController>().speed = 20;
     }
 
 }
