@@ -26,7 +26,7 @@ public class SpellCaster
         this.max_mana = mana;
         this.mana_reg = mana_reg;
         this.team = team;
-        spell = new SpellBuilder().Build(this);
+        spell = GameManager.Instance.player.GetComponent<PlayerController>().allSpells[GameManager.Instance.player.GetComponent<PlayerController>().currentSpellSlot];
     }
 
     public IEnumerator Cast(Vector3 where, Vector3 target)

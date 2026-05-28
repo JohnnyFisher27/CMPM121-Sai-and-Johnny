@@ -17,6 +17,7 @@ public class SpellUIContainer : MonoBehaviour
         Debug.Log(numSpells);
         spellUIs[numSpells - 1].SetActive(true);
 
+        GameManager.Instance.player.GetComponent<PlayerController>().allSpells.Add(GameManager.Instance.player.GetComponent<PlayerController>().currentSpell);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
