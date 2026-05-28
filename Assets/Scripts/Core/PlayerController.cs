@@ -12,19 +12,27 @@ public class PlayerController : MonoBehaviour
     public ManaBar manaui;
 
     public SpellCaster spellcaster;
-    public SpellUI spellui;
+    public SpellUI spellui1;
+    public SpellUI spellui2;
+    public SpellUI spellui3;
+    public SpellUI spellui4;
+    public SpellUI[] spellUIComponents;
 
     public int speed;
 
     public Unit unit;
 
-    public int currentSpell = 1;
+    public int currentSpellSlot;
     public bool[] currentRelics;
     public int spellpower = 10;
     public int nextSpellBuff;
     public bool standingStill;
     public bool playerInvincible;
     public float invincibleTimer;
+
+    public List<Spell> allSpells = new List<Spell>();
+    public Spell currentSpell;
+    public SpellBuilder spellBuilder = new SpellBuilder();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,9 +41,20 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.player = gameObject;
 
         currentRelics = new bool[7] {false, false, false, false, false, false, false}; 
+
         nextSpellBuff = 0;
         invincibleTimer = 0;
+        currentSpellSlot = 0;
         playerInvincible = false;
+
+        Spell spell = new SpellBuilder().Build(spellcaster, true);
+        allSpells.Add(spell);
+
+        spellui1.SetSpell(spell);
+        spellUIComponents = new SpellUI[4] {spellui1, spellui2, spellui3, spellui4 };
+
+        Debug.Log(allSpells[0]);
+
     }
 
     void OnEnable()
@@ -60,7 +79,7 @@ public class PlayerController : MonoBehaviour
         // tell UI elements what to show
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
-        spellui.SetSpell(spellcaster.spell);
+        
     }
 
     // Update is called once per frame
@@ -128,10 +147,11 @@ public class PlayerController : MonoBehaviour
         
         float inputDirection = value.Get<float>();
 
-        if (inputDirection != 0 && currentSpell + (int)inputDirection > 0 && currentSpell + (int)inputDirection <= 4)
+        if (inputDirection != 0 && currentSpellSlot + (int)inputDirection >= 0 && currentSpellSlot + (int)inputDirection <= allSpells.Count - 1)
         {
-            currentSpell += (int)inputDirection; 
-            Debug.Log("Current Spell: " + currentSpell);
+            currentSpellSlot += (int)inputDirection; 
+            Debug.Log("Current Spell: " + currentSpellSlot);
+            spellcaster.spell = allSpells[currentSpellSlot];
         }
     }
 

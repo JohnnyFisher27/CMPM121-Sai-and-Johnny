@@ -1925,19 +1925,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 426128248}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1982188287}
-        m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
-        m_MethodName: dropSpell2
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &426128248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3095,19 +3083,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 578112682}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1982188287}
-        m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
-        m_MethodName: dropSpell4
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &578112682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4916,6 +4892,7 @@ GameObject:
   - component: {fileID: 1082194830}
   - component: {fileID: 1082194829}
   - component: {fileID: 1082194828}
+  - component: {fileID: 1082194831}
   m_Layer: 5
   m_Name: Choose
   m_TagString: Untagged
@@ -4987,8 +4964,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1982188287}
-        m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
+      - m_Target: {fileID: 1082194831}
+        m_TargetAssemblyTypeName: SetSpells, Assembly-CSharp
         m_MethodName: takeSpell
         m_Mode: 1
         m_Arguments:
@@ -5037,6 +5014,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1082194826}
   m_CullTransparentMesh: 1
+--- !u!114 &1082194831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082194826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65137bb55ab2f454e9ae3dcb7ee7f513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SetSpells
+  spellUIs:
+  - {fileID: 2085212183}
+  - {fileID: 96316927}
+  - {fileID: 457295002}
+  - {fileID: 797691353}
+  player: {fileID: 1718273952}
+  chooseButton: {fileID: 1082194826}
 --- !u!1 &1100417761
 GameObject:
   m_ObjectHideFlags: 0
@@ -6644,19 +6640,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1528944912}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1982188287}
-        m_TargetAssemblyTypeName: SpellUIContainer, Assembly-CSharp
-        m_MethodName: dropSpell3
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1528944912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7774,11 +7758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthui: {fileID: 765025204}
   manaui: {fileID: 71109453}
-  spellui1: {fileID: 2085212185}
-  spellui2: {fileID: 96316929}
-  spellui3: {fileID: 457295004}
-  spellui4: {fileID: 797691355}
-  spellUIComponents: []
+  spellui: {fileID: 2085212185}
   speed: 5
   unit: {fileID: 0}
   currentSpellSlot: 1
@@ -58717,13 +58697,7 @@ MonoBehaviour:
   - {fileID: 457295002}
   - {fileID: 797691353}
   player: {fileID: 1718273952}
-  chooseButton: {fileID: 1082194826}
-  numSpells: 1
-  lastSpellDropped: 2
-  dropButton2: {fileID: 426128245}
-  dropButton3: {fileID: 1528944909}
-  dropButton4: {fileID: 578112679}
-  dropButtons: []
+  chooseButton: {fileID: 0}
 --- !u!1 &2007398911
 GameObject:
   m_ObjectHideFlags: 0

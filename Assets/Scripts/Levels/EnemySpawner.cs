@@ -9,6 +9,8 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -25,6 +27,9 @@ public class EnemySpawner : MonoBehaviour
     public float timeStandingStill;
     
     public ReadRelic relic;
+    public Spell newSpell;
+    public SpellCaster spellcaster;
+    public TextMeshProUGUI spellText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -119,6 +124,7 @@ public class EnemySpawner : MonoBehaviour
         level_selector.gameObject.SetActive(false);
 
         setPlayerStats();
+        setSpells();
 
         StartCoroutine(SpawnWave());
     }
@@ -135,6 +141,7 @@ public class EnemySpawner : MonoBehaviour
         current_wave++;
 
         setPlayerStats();
+        setSpells();
 
         // Relics are shown and can be selected every 3 waves
         if (current_wave % 3 == 0 && GameManager.Instance.numRelics < 5)
@@ -257,6 +264,17 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
         GameManager.Instance.player.GetComponent<PlayerController>().spellpower = player_spell_power;
         GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
+    }
+
+    void setSpells()
+    {
+        SpellBuilder spellBuilder = GameManager.Instance.player.GetComponent<PlayerController>().spellBuilder;
+
+        Spell newSpell = spellBuilder.Build(spellcaster, false);
+        GameManager.Instance.player.GetComponent<PlayerController>().currentSpell = newSpell;
+
+        string spellDescription = spellBuilder.description;
+        spellText.text = spellDescription;
     }
 
 }

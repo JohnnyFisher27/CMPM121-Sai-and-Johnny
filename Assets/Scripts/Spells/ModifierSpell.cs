@@ -18,14 +18,14 @@ public class ModifierSpell
 
     public void addModifier(Modifiers modifier)
     {
-        Debug.Log($"Add Modifier:  {modifier.name}");
+        //Debug.Log($"Add Modifier:  {modifier.name}");
         modifiers.Add(modifier);
     }
     public Spell getSpell()
     {
         spell = new Spell(myOwner);
         var dict = new Dictionary<string, int> { { "wave", 1 } }; // @todo get current wave JOHNNY HELP
-
+        
         // GameManager.Instance.player.GetComponent<PlayerController>().spellpower += RPNEvaluator.RPNEvaluator.Evaluate("10 wave 5 * +", dict);
 
         foreach (var modifier in modifiers)
@@ -34,14 +34,14 @@ public class ModifierSpell
             if (!string.IsNullOrEmpty(modifier.delay))
             {
                 spell.delay = RPNEvaluator.RPNEvaluator.Evaluatef(modifier.delay, dict);
-                Debug.Log(modifier.delay);
+                //Debug.Log(modifier.delay);
             }
 
             // angle meow
-            /*if (!string.IsNullOrEmpty(modifier.angle))
+            if (!string.IsNullOrEmpty(modifier.angle))
             {
                 spell.angle = RPNEvaluator.RPNEvaluator.Evaluatef(modifier.angle, dict);
-            }*/
+            }
 
             // damage meow
             if (!string.IsNullOrEmpty(modifier.damage_multiplier))
@@ -79,6 +79,7 @@ public class ModifierSpell
                 spell.trajectory = modifier.projectile_trajectory;
             }
         }
+
         return spell;
     }
 
@@ -86,11 +87,11 @@ public class ModifierSpell
     {
         StringBuilder sb = new StringBuilder();
         sb.Append($"{spell.GetName()}");
-        Debug.Log($"count: {modifiers.Count}");
+        //Debug.Log($"count: {modifiers.Count}");
         foreach (var modifier in modifiers)
         {
             sb.Append($"{modifier.name}: {modifier.description}");
-            Debug.Log($"name: {modifier.name}");
+            //Debug.Log($"name: {modifier.name}");
         }
         return sb.ToString();
     }
