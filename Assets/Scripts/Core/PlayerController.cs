@@ -12,7 +12,11 @@ public class PlayerController : MonoBehaviour
     public ManaBar manaui;
 
     public SpellCaster spellcaster;
-    public SpellUI spellui;
+    public SpellUI spellui1;
+    public SpellUI spellui2;
+    public SpellUI spellui3;
+    public SpellUI spellui4;
+    public SpellUI[] spellUIComponents;
 
     public int speed;
 
@@ -46,6 +50,11 @@ public class PlayerController : MonoBehaviour
         Spell spell = new SpellBuilder().Build(spellcaster, true);
         allSpells.Add(spell);
 
+        spellui1.SetSpell(spell);
+        spellUIComponents = new SpellUI[4] {spellui1, spellui2, spellui3, spellui4 };
+
+        Debug.Log(allSpells[0]);
+
     }
 
     void OnEnable()
@@ -70,8 +79,7 @@ public class PlayerController : MonoBehaviour
         // tell UI elements what to show
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
-        spellui.SetSpell(spellcaster.spell);
-
+        
     }
 
     // Update is called once per frame
