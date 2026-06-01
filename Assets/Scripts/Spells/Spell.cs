@@ -16,6 +16,7 @@ public class Spell
     public float speed;
     public float angle;
     public string trajectory;
+    public int count;
 
     public Spell(SpellCaster owner)
     {
@@ -28,6 +29,7 @@ public class Spell
         speed = 15f;
         angle = 0f;
         trajectory = "straight";
+        count = 1;
 
     }
 
@@ -64,8 +66,14 @@ public class Spell
     public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team)
     {
         this.team = team;
-        yield return new WaitForSeconds(delay);
-        GameManager.Instance.projectileManager.CreateProjectile(0, trajectory, where, target - where, speed, OnHit);
+        Debug.Log($"count:{count}");
+        for (int i = 0; i < count; i++)
+        {
+            yield return new WaitForSeconds(delay);
+            GameManager.Instance.projectileManager.CreateProjectile(0, trajectory, where, Quaternion.Euler(0, 0, angle * i) * (target - where), speed, OnHit);
+        }
+        // GameManager.Instance.projectileManager.CreateProjectile(0, trajectory, where, target - where, speed, OnHit);
+        
         yield return new WaitForEndOfFrame();
     }
 
