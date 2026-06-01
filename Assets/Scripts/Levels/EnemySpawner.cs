@@ -44,6 +44,16 @@ public class EnemySpawner : MonoBehaviour
         var classDictionary = JsonConvert.DeserializeObject<Dictionary<string, PlayerClass>>(jsonString2);
         classes = classDictionary.Values.ToList();
 
+        for (int i = 0; i < classes.Count; i++)
+        {
+            Debug.Log(classes[i].sprite);
+            Debug.Log(classes[i].health);
+            Debug.Log(classes[i].mana);
+            Debug.Log(classes[i].mana_regeneration);
+            Debug.Log(classes[i].spellpower);
+            Debug.Log(classes[i].speed);
+        }
+
         // Levels deserialized
         string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
         levels = JsonConvert.DeserializeObject<List<Levels>>(jsonString3);

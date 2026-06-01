@@ -19,9 +19,9 @@ public class SpellBuilder
         ModifierSpell modifierSpell = new ModifierSpell(owner);
         int numModifiers = Random.Range(2, 4);
         //int numModifiers = 0;
-        if (!baseSpell)
+        if (baseSpell)
         {
-            numModifiers = Random.Range(2, 4);
+            numModifiers = 0;
         }
 
         for (int ii = 0; ii < numModifiers; ii++)
