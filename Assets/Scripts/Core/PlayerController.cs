@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
             spellcaster.spell = allSpells[currentSpellSlot];
         }
     }
-
+    // Press q to go back a spell, press e to go forward a spell.
     void OnBuff(InputValue value)
     {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER
