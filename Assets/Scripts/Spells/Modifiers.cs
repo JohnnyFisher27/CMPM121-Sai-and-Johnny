@@ -16,6 +16,7 @@ public class Modifiers : MonoBehaviour
     public string speed_multiplier;
     public string cooldown_multiplier;
     public string projectile_trajectory;
+    public string count;
     public Modifiers Clone()
     {
         return new Modifiers
@@ -29,7 +30,8 @@ public class Modifiers : MonoBehaviour
             mana_adder = this.mana_adder,
             speed_multiplier = this.speed_multiplier,
             cooldown_multiplier = this.cooldown_multiplier,
-            projectile_trajectory = this.projectile_trajectory
+            projectile_trajectory = this.projectile_trajectory,
+            count = this.count
         };
     }
 }

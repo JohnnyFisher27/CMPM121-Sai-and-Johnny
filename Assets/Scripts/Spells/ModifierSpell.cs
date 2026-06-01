@@ -78,6 +78,13 @@ public class ModifierSpell
             {
                 spell.trajectory = modifier.projectile_trajectory;
             }
+
+            // count meow
+            if (!string.IsNullOrEmpty(modifier.count))
+            {
+                spell.count = RPNEvaluator.RPNEvaluator.Evaluate(modifier.count, dict);
+                Debug.Log($"modifier spell: {spell.count}");
+            }
         }
 
         return spell;
@@ -87,11 +94,11 @@ public class ModifierSpell
     {
         StringBuilder sb = new StringBuilder();
         sb.Append($"{spell.GetName()}");
-        //Debug.Log($"count: {modifiers.Count}");
+        Debug.Log($"count: {modifiers.Count}");
         foreach (var modifier in modifiers)
         {
             sb.Append($"{modifier.name}: {modifier.description}");
-            //Debug.Log($"name: {modifier.name}");
+            Debug.Log($"name: {modifier.name}");
         }
         return sb.ToString();
     }
