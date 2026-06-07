@@ -11,7 +11,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
 public class EnemySpawner : MonoBehaviour
 {
     public Image level_selector;
@@ -30,6 +29,8 @@ public class EnemySpawner : MonoBehaviour
     public Spell newSpell;
     public SpellCaster spellcaster;
     public TextMeshProUGUI spellText;
+
+    public string chosenClass;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -266,14 +267,44 @@ public class EnemySpawner : MonoBehaviour
     {
         // Player Progression 
         var dict = new Dictionary<string, int> { {"wave", current_wave}};
-        int player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate("95 wave 5 * +", dict); 
-        int player_mana = RPNEvaluator.RPNEvaluator.Evaluate("90 wave 10 * +", dict);
-        int player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate("10 wave +", dict);
-        int player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate("10 wave *", dict);
+
+        int player_max_hp;
+        int player_mana;
+        int player_mana_regen;
+        int player_spell_power;
+        int player_speed;
+
+        if (chosenClass == "Mage")
+        {
+            player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].health, dict);
+            player_mana = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].mana, dict);
+            player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].mana_regeneration, dict);
+            player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].spellpower, dict);
+            player_speed = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].speed, dict);
+
+        } else if (chosenClass == "Warlock")
+        {
+            player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].health, dict);
+            player_mana = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].mana, dict);
+            player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].mana_regeneration, dict);
+            player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].spellpower, dict);
+            player_speed = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].speed, dict);
+        } else if (chosenClass == "Battlemage")
+        {
+            player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].health, dict);
+            player_mana = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].mana, dict);
+            player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].mana_regeneration, dict);
+            player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].spellpower, dict);
+            player_speed = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].speed, dict);
+        } else
+        {
+            Debug.Log("error");
+        }
+       
 
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
         GameManager.Instance.player.GetComponent<PlayerController>().spellpower = player_spell_power;
-        GameManager.Instance.player.GetComponent<PlayerController>().speed = 5;
+        GameManager.Instance.player.GetComponent<PlayerController>().speed = player_speed;
     }
 
     void setSpells()
