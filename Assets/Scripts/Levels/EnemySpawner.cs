@@ -31,6 +31,15 @@ public class EnemySpawner : MonoBehaviour
     public TextMeshProUGUI spellText;
 
     public string chosenClass;
+    public Sprite mageSprite;
+    public Sprite warlockSprite;
+    public Sprite battlemageSprite;
+    public GameObject classSelectScreen;
+
+     void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,21 +54,36 @@ public class EnemySpawner : MonoBehaviour
         var classDictionary = JsonConvert.DeserializeObject<Dictionary<string, PlayerClass>>(jsonString2);
         classes = classDictionary.Values.ToList();
 
-        for (int i = 0; i < classes.Count; i++)
-        {
-            Debug.Log(classes[i].sprite);
-            Debug.Log(classes[i].health);
-            Debug.Log(classes[i].mana);
-            Debug.Log(classes[i].mana_regeneration);
-            Debug.Log(classes[i].spellpower);
-            Debug.Log(classes[i].speed);
-        }
-
         // Levels deserialized
         string jsonString3 = File.ReadAllText(Application.dataPath + "/Resources/levels.json");
         levels = JsonConvert.DeserializeObject<List<Levels>>(jsonString3);
 
-        // Adds in buttons to select difficulty
+        current_wave = 1;
+
+    }
+
+    public void SelectMage()
+    {
+        chosenClass = "Mage";
+        difficultySelectScreen();  
+    }
+
+    public void SelectWarlock()
+    {
+        chosenClass = "Warlock";
+        difficultySelectScreen();  
+    }
+
+    public void SelectBattlemage()
+    {
+        chosenClass = "Battlemage";
+        difficultySelectScreen();
+    }
+
+    void difficultySelectScreen()
+    {
+        classSelectScreen.SetActive(false);
+
         for (int i = 0; i < levels.Count; i++)
         {
             GameObject difficulty_selector = Instantiate(button, level_selector.transform);
@@ -67,9 +91,6 @@ public class EnemySpawner : MonoBehaviour
             difficulty_selector.GetComponent<MenuSelectorController>().spawner = this;
             difficulty_selector.GetComponent<MenuSelectorController>().SetLevel(levels[i].name);
         }
-
-        current_wave = 1;
-
     }
 
     void ResetGame()
@@ -268,11 +289,11 @@ public class EnemySpawner : MonoBehaviour
         // Player Progression 
         var dict = new Dictionary<string, int> { {"wave", current_wave}};
 
-        int player_max_hp;
-        int player_mana;
-        int player_mana_regen;
-        int player_spell_power;
-        int player_speed;
+        int player_max_hp = 0;
+        int player_mana = 0;
+        int player_mana_regen = 0;
+        int player_spell_power = 0;
+        int player_speed = 0;
 
         if (chosenClass == "Mage")
         {
@@ -280,7 +301,10 @@ public class EnemySpawner : MonoBehaviour
             player_mana = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].mana, dict);
             player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].mana_regeneration, dict);
             player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].spellpower, dict);
-            player_speed = RPNEvaluator.RPNEvaluator.Evaluate(classes[0].speed, dict);
+            player_speed = int.Parse(classes[0].speed);
+
+            GameManager.Instance.player.GetComponent<SpriteRenderer>().sprite = mageSprite;
+
 
         } else if (chosenClass == "Warlock")
         {
@@ -288,7 +312,10 @@ public class EnemySpawner : MonoBehaviour
             player_mana = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].mana, dict);
             player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].mana_regeneration, dict);
             player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].spellpower, dict);
-            player_speed = RPNEvaluator.RPNEvaluator.Evaluate(classes[1].speed, dict);
+            player_speed = int.Parse(classes[1].speed);
+
+            GameManager.Instance.player.GetComponent<SpriteRenderer>().sprite = warlockSprite;
+
         } else if (chosenClass == "Battlemage")
         {
             player_max_hp = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].health, dict);
@@ -296,12 +323,14 @@ public class EnemySpawner : MonoBehaviour
             player_mana_regen = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].mana_regeneration, dict);
             player_spell_power = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].spellpower, dict);
             player_speed = RPNEvaluator.RPNEvaluator.Evaluate(classes[2].speed, dict);
+
+            GameManager.Instance.player.GetComponent<SpriteRenderer>().sprite = battlemageSprite;
+
         } else
         {
             Debug.Log("error");
         }
        
-
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel(player_max_hp, player_mana, player_mana_regen);
         GameManager.Instance.player.GetComponent<PlayerController>().spellpower = player_spell_power;
         GameManager.Instance.player.GetComponent<PlayerController>().speed = player_speed;
